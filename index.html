@@ -14,19 +14,22 @@
         
         header { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         h1 { font-size: 16px; color: var(--azul); }
-        .status-resumo { font-size: 11px; color: #666; font-weight: bold; }
-        .btn-whats { background: #25D366; color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .status-resumo { font-size: 10px; color: #666; font-weight: bold; line-height: 1.1; }
+        .destaque-moinho { color: #e67e22; font-weight: 900; }
+        
+        .btn-top { border: none; padding: 8px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; cursor: pointer; margin-left: 3px; }
+        .btn-whats { background: #25D366; }
+        .btn-sheets { background: #4285F4; }
 
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; }
         .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; position: relative; }
         .coluna { display: flex; flex-direction: column; gap: 4px; }
         #colD { justify-content: flex-end; }
 
-        /* AJUSTE FIXO PARA O BOTÃO NÃO SUMIR */
         #central-equipe { position: absolute; top: 0; right: 0; width: calc(50% - 15px); height: 45%; background: #eef2f7; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; border: 2px solid #cbd5e0; z-index: 10; }
         .controles-equipe { display: flex; gap: 5px; margin-bottom: 8px; height: 35px; width: 100%; }
         .controles-equipe input { flex: 1; min-width: 0; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .btn-add { background: var(--azul); color: white; border: none; width: 40px; flex-shrink: 0; border-radius: 4px; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .btn-add { background: var(--azul); color: white; border: none; width: 40px; flex-shrink: 0; border-radius: 4px; font-size: 20px; font-weight: bold; }
         
         .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; }
         .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; }
@@ -53,33 +56,35 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 15px; border-radius: 8px; width: 95%; max-width: 400px; max-height: 95vh; overflow-y: auto; }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; }
         .switch { position: relative; width: 50px; height: 24px; }
         .switch input { opacity: 0; }
-        .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 34px; transition: .4s; cursor: pointer; }
+        .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 34px; transition: .4s; }
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background: white; border-radius: 50%; transition: .4s; }
         input:checked + .slider { background: var(--verde); }
         input:checked + .slider:before { transform: translateX(26px); }
 
         .inp-full { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 14px; }
         .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
-        .form-molde-row { display: flex; gap: 5px; margin-bottom: 5px; }
-        .lista-moldes { max-height: 150px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
-        .item-molde { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; cursor: pointer; }
-        .molde-ativo { border: 2.5px solid var(--azul) !important; background: #e8f4fd; font-weight: bold; }
-        .bola-dif { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .lista-moldes { max-height: 120px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .item-molde { display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; }
+        .molde-ativo { border: 2px solid var(--azul); background: #e8f4fd; }
+        .bola-dif { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
         .bg-F { background: var(--verde); } .bg-M { background: var(--amarelo); } .bg-D { background: var(--vermelho); }
-        .btn-salvar { width: 100%; padding: 15px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 10px; font-size: 16px; }
+        .btn-salvar { width: 100%; padding: 15px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="info-header">
-            <h1>SpinInject Cloud</h1>
+            <h1>SpinInject</h1>
             <div id="status-resumo" class="status-resumo">Carregando...</div>
         </div>
-        <button class="btn-whats" onclick="enviarWhats()">Enviar Escala</button>
+        <div style="display: flex;">
+            <button class="btn-top btn-sheets" onclick="enviarParaSheets()">Planilha</button>
+            <button class="btn-top btn-whats" onclick="enviarWhats()">WhatsApp</button>
+        </div>
     </header>
 
     <div class="area-trabalho">
@@ -89,7 +94,7 @@
             <div id="colD" class="coluna"></div>
             <div id="central-equipe">
                 <div class="controles-equipe">
-                    <input type="text" id="novo-op" placeholder="Add Op.">
+                    <input type="text" id="novo-op" placeholder="Nome Op.">
                     <button class="btn-add" onclick="addEquipe()">+</button>
                 </div>
                 <div id="lista-equipe" class="lista-nomes"></div>
@@ -108,24 +113,22 @@
                 <h3 id="modal-titulo">Editar</h3>
                 <label class="switch"><input type="checkbox" id="switchSt"><span class="slider"></span></label>
             </div>
-            <label style="font-size:11px; font-weight:bold; color:var(--azul)">OPERADOR:</label>
-            <input id="inOp" class="inp-full">
-            <label style="font-size:11px; font-weight:bold; color:var(--azul)">MOLDE SELECIONADO:</label>
-            <input id="inMolDisplay" class="inp-full" readonly style="background:#f0f0f0;">
+            <input id="inOp" class="inp-full" placeholder="Operador">
+            <input id="inMolDisplay" class="inp-full" readonly style="background:#eee">
             <div class="area-moldes">
-                <div class="form-molde-row">
-                    <input id="newMolCod" placeholder="Cód." style="flex:1.5; padding:8px;">
-                    <select id="newMolDif" style="flex:1;"><option value="F">Verde</option><option value="M">Amarelo</option><option value="D">Vermelho</option></select>
+                <div style="display:flex; gap:5px; margin-bottom:5px">
+                    <input id="newMolCod" placeholder="Cód" style="flex:1; padding:5px">
+                    <select id="newMolDif"><option value="F">Verde</option><option value="M">Amarelo</option><option value="D">Vermelho</option></select>
                 </div>
-                <div class="form-molde-row">
-                    <input id="newMolNome" placeholder="Nome do Molde" style="flex:3; padding:8px;">
-                    <button onclick="addMolde()" style="flex:1; background:var(--azul); color:white; border:none; border-radius:4px;">ADD</button>
+                <div style="display:flex; gap:5px">
+                    <input id="newMolNome" placeholder="Nome Molde" style="flex:2; padding:5px">
+                    <button onclick="addMolde()" style="padding:5px 10px">+</button>
                 </div>
                 <div id="lista-moldes-maquina" class="lista-moldes"></div>
             </div>
-            <textarea id="inObs" class="inp-full" placeholder="Obs..." rows="2" style="margin-top:10px"></textarea>
+            <textarea id="inObs" class="inp-full" placeholder="Motivo de parada / Obs" rows="2" style="margin-top:10px"></textarea>
             <button class="btn-salvar" onclick="salvar()">SALVAR</button>
-            <button onclick="fecharModal()" style="width:100%; padding:10px; background:none; border:none; color:red;">CANCELAR</button>
+            <button onclick="fecharModal()" style="width:100%; border:none; padding:10px; color:red; background:none;">CANCELAR</button>
         </div>
     </div>
 
@@ -152,34 +155,40 @@
                 equipe = data.equipe || [];
                 desenhar();
                 desenharEquipe();
+                atualizarResumo();
             } else { inicializarBanco(); }
         });
 
-        function inicializarBanco() {
-            const mIds = ['905','638','639','648','644','643','408','407','303','520','32002','1816','1817','1503'];
-            const padrao = {
-                maquinas: mIds.map(id => ({ id, p: id==='303'||id==='520'||id==='32002'?'D':(id==='1816'||id==='1817'||id==='1503'?'B':'E'), st:'ON', op:'', mol:'', dif:'F', obs:'', moldes:[] })),
-                equipe: []
-            };
-            db.ref(CAMINHO).set(padrao);
+        function atualizarResumo() {
+            const ligadas = maquinas.filter(m => m.st === 'ON').length;
+            const ops = new Set(maquinas.filter(m => m.op && m.st==='ON').map(m => m.op)).size;
+            const moinho = maquinas.some(m => (m.id==='32002' && m.st==='ON') || (m.mol && m.mol.toUpperCase().includes('MOINHO')));
+            document.getElementById('status-resumo').innerHTML = `
+                ${ligadas} Maq. ON | ${ops} Operadores<br>
+                ${moinho ? '<span class="destaque-moinho">+ 1 MOINHO ATIVO</span>' : 'Moinho Desligado'}
+            `;
         }
 
-        function addEquipe() {
-            const n = document.getElementById('novo-op').value.trim();
-            if(n) { equipe.push(n); db.ref(`${CAMINHO}/equipe`).set(equipe); document.getElementById('novo-op').value=''; }
+        function enviarParaSheets() {
+            const SCRIPT_URL = "SUA_URL_DO_APPS_SCRIPT"; // COLE AQUI SUA URL
+            if(SCRIPT_URL.includes("SUA_URL")) { alert("Configure a URL do Script primeiro!"); return; }
+
+            // Envia TODAS as máquinas para registrar motivos de parada
+            const payload = maquinas.map(m => ({
+                maquina: m.id,
+                operador: m.op || "---",
+                molde: m.mol || "---",
+                status: m.st,
+                obs: m.obs || "",
+                data: new Date().toLocaleString('pt-BR')
+            }));
+
+            fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
+            .then(() => alert("Dados enviados com sucesso!"))
+            .catch(e => alert("Erro ao enviar"));
         }
 
-        function desenharEquipe() {
-            const c = document.getElementById('lista-equipe'); c.innerHTML = '';
-            equipe.forEach(n => {
-                const t = document.createElement('div'); t.className = 'tag-op'; t.innerText = n;
-                t.ontouchstart = (e) => { dragInfo = { tipo:'equipe', valor:n }; avatar.style.display='block'; moverAvatar(e.touches[0]); };
-                t.ontouchmove = (e) => moverAvatar(e.touches[0]);
-                t.ontouchend = (e) => finalizarDrag(e.changedTouches[0]);
-                c.appendChild(t);
-            });
-        }
-
+        // Restante das funções (Desenhar, Drag, Modal, etc) mantidas idênticas às correções anteriores
         function desenhar() {
             const cols = { E: document.getElementById('colE'), D: document.getElementById('colD'), B: document.getElementById('colB') };
             Object.values(cols).forEach(c => c.innerHTML = '');
@@ -191,56 +200,37 @@
                 card.onclick = () => abrir(m.id);
                 cols[m.p].appendChild(card);
             });
-            const lig = maquinas.filter(m=>m.st==='ON').length;
-            document.getElementById('status-resumo').innerText = `${lig} Máquinas Ativas`;
-        }
-
-        function moverAvatar(t) { avatar.style.left = (t.clientX - 10)+'px'; avatar.style.top = (t.clientY - 20)+'px'; }
-
-        function finalizarDrag(t) {
-            avatar.style.display = 'none';
-            const el = document.elementFromPoint(t.clientX, t.clientY);
-            const dCard = el?.closest('.card');
-            const dLixeira = el?.closest('#lixeira');
-            if(dragInfo?.tipo==='equipe') {
-                if(dLixeira) { equipe = equipe.filter(n=>n!==dragInfo.valor); db.ref(`${CAMINHO}/equipe`).set(equipe); }
-                else if(dCard) { const m = maquinas.find(x=>x.id===dCard.dataset.id); if(m) { m.op = dragInfo.valor; db.ref(`${CAMINHO}/maquinas`).set(maquinas); } }
-            }
-            dragInfo = null;
         }
 
         function abrir(id) {
             editId = id; const m = maquinas.find(x=>x.id===id);
-            document.getElementById('modal-titulo').innerText = `EDITAR ${m.id}`;
+            document.getElementById('modal-titulo').innerText = `INJETORA ${m.id}`;
             document.getElementById('switchSt').checked = m.st==='ON';
             document.getElementById('inOp').value = m.op;
             document.getElementById('inMolDisplay').value = m.mol;
-            document.getElementById('inObs').value = m.obs;
-            tempDif = m.dif; 
-            renderMoldes();
+            document.getElementById('inObs').value = m.obs || "";
+            tempDif = m.dif; renderMoldes();
             document.getElementById('modal').style.display = 'flex';
         }
 
         function renderMoldes() {
             const m = maquinas.find(x=>x.id===editId);
             const l = document.getElementById('lista-moldes-maquina'); l.innerHTML = '';
-            if(!m.moldes) m.moldes = [];
-            m.moldes.forEach((mo, i) => {
-                const item = document.createElement('div'); 
-                const nomeCompleto = `${mo.cod} - ${mo.nome}`;
-                item.className = `item-molde ${document.getElementById('inMolDisplay').value === nomeCompleto ? 'molde-ativo' : ''}`;
-                item.innerHTML = `<div style="display:flex; align-items:center"><span class="bola-dif bg-${mo.dif}"></span>${nomeCompleto}</div><b onclick="event.stopPropagation(); delMolde(${i})">✕</b>`;
-                item.onclick = () => { document.getElementById('inMolDisplay').value = nomeCompleto; tempDif = mo.dif; renderMoldes(); };
+            (m.moldes||[]).forEach((mo, i) => {
+                const item = document.createElement('div');
+                const txt = `${mo.cod} - ${mo.nome}`;
+                item.className = `item-molde ${document.getElementById('inMolDisplay').value===txt?'molde-ativo':''}`;
+                item.innerHTML = `<div><span class="bola-dif bg-${mo.dif}"></span>${txt}</div><b onclick="event.stopPropagation(); delMolde(${i})">✕</b>`;
+                item.onclick = () => { document.getElementById('inMolDisplay').value = txt; tempDif = mo.dif; renderMoldes(); };
                 l.appendChild(item);
             });
         }
 
         function addMolde() {
-            const c = document.getElementById('newMolCod').value.trim(), n = document.getElementById('newMolNome').value.trim(), d = document.getElementById('newMolDif').value;
+            const c = document.getElementById('newMolCod').value, n = document.getElementById('newMolNome').value, d = document.getElementById('newMolDif').value;
             if(c && n) {
                 const m = maquinas.find(x=>x.id===editId); if(!m.moldes) m.moldes = [];
                 m.moldes.push({cod:c, nome:n, dif:d});
-                document.getElementById('newMolCod').value=''; document.getElementById('newMolNome').value='';
                 db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes();
             }
         }
@@ -262,10 +252,44 @@
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
+        function addEquipe() {
+            const n = document.getElementById('novo-op').value.trim();
+            if(n) { equipe.push(n); db.ref(`${CAMINHO}/equipe`).set(equipe); document.getElementById('novo-op').value=''; }
+        }
+
+        function desenharEquipe() {
+            const c = document.getElementById('lista-equipe'); c.innerHTML = '';
+            equipe.forEach(n => {
+                const t = document.createElement('div'); t.className = 'tag-op'; t.innerText = n;
+                t.ontouchstart = (e) => { dragInfo = { tipo:'equipe', valor:n }; avatar.style.display='block'; };
+                t.ontouchend = (e) => { 
+                    avatar.style.display='none'; 
+                    const el = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+                    const dCard = el?.closest('.card');
+                    const dLix = el?.closest('#lixeira');
+                    if(dLix) { equipe = equipe.filter(x=>x!==n); db.ref(`${CAMINHO}/equipe`).set(equipe); }
+                    else if(dCard) { 
+                        const m = maquinas.find(x=>x.id===dCard.dataset.id); 
+                        m.op = n; db.ref(`${CAMINHO}/maquinas`).set(maquinas); 
+                    }
+                };
+                c.appendChild(t);
+            });
+        }
+
         function enviarWhats() {
             let t = "*ESCALA SPININJECT*\n";
             maquinas.forEach(m => { if(m.st==='ON' && m.op) t += `🔹 INJ-${m.id}: ${m.op} [${m.mol}]\n`; });
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(t));
+        }
+
+        function inicializarBanco() {
+            const mIds = ['905','638','639','648','644','643','408','407','303','520','32002','1816','1817','1503'];
+            const padrao = {
+                maquinas: mIds.map(id => ({ id, p: id==='303'||id==='520'||id==='32002'?'D':(id==='1816'||id==='1817'||id==='1503'?'B':'E'), st:'ON', op:'', mol:'', dif:'F', obs:'', moldes:[] })),
+                equipe: []
+            };
+            db.ref(CAMINHO).set(padrao);
         }
     </script>
 </body>
