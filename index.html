@@ -18,54 +18,49 @@
 
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; padding-bottom: env(safe-area-inset-bottom); }
         
-        /* Layout Superior: Mantendo as proporções originais */
-        .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; }
+        /* Layout Superior original */
+        .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; position: relative; }
         .coluna { display: flex; flex-direction: column; gap: 4px; height: 100%; }
         
-        /* CENTRAL DE EQUIPE: Ocupa apenas o topo da coluna direita */
+        /* A COLUNA DA DIREITA volta a ser como era antes */
+        #colD { justify-content: flex-end; }
+
+        /* A LISTA DE OPERADORES: Agora ela flutua no vazio superior direito */
         #central-equipe { 
-            background: #e2e8f0; border-radius: 6px; padding: 5px; 
-            display: flex; flex-direction: column; 
-            flex: 1; /* Ocupa o espaço que sobra no topo */
-            margin-bottom: 5px; border: 2px solid #cbd5e0; overflow: hidden;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: calc(50% - 15px); /* Ocupa a largura da coluna da direita */
+            height: 45%; /* Ocupa o espaço vazio acima da máquina 303 */
+            background: #eef2f7; 
+            border-radius: 6px; 
+            padding: 5px; 
+            display: flex; 
+            flex-direction: column; 
+            border: 2px solid #cbd5e0;
+            z-index: 10;
         }
+
         .controles-equipe { display: flex; gap: 3px; margin-bottom: 5px; }
-        .controles-equipe input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
-        .btn-add { background: var(--azul); color: white; border: none; padding: 0 10px; border-radius: 4px; font-size: 16px; }
+        .controles-equipe input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; }
+        .btn-add { background: var(--azul); color: white; border: none; padding: 0 10px; border-radius: 4px; font-weight: bold; }
         
         .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; align-content: flex-start; flex: 1; }
-        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; touch-action: none; }
+        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; touch-action: none; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         
-        #lixeira {
-            height: 35px; border-top: 1px solid #cbd5e0; margin-top: 5px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: #7f8c8d;
-        }
-        .lixeira-ativa { background: #fab1a0 !important; color: #d63031 !important; }
+        #lixeira { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0.5; border-top: 1px solid #ccc; margin-top: 4px; }
+        .lixeira-ativa { background: #ff7675 !important; border-radius: 0 0 5px 5px; opacity: 1 !important; }
 
-        /* MÁQUINAS DA DIREITA: Agora com altura total controlada para não mudar de tamanho */
-        #conteiner-maquinas-D { 
-            display: flex; flex-direction: column; gap: 4px; 
-            justify-content: flex-end; 
-            height: auto; /* Deixa as máquinas manterem seus tamanhos fixos abaixo */
-        }
+        /* Máquinas com tamanhos originais */
+        .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
+        
+        /* Travando altura da 32002 para manter a proporção que você pediu antes */
+        .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
+        #colD .card:not([data-id="32002"]) { flex: none; height: 11.5%; }
 
         .corredor-vertical { background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; writing-mode: vertical-rl; border-radius: 4px; font-weight: bold; font-size: 8px; }
         .corredor-horizontal { height: 18px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
         .rodape-injetoras { display: flex; gap: 5px; height: 20%; }
-
-        /* TAMANHOS TRAVADOS (IGUAL À ESQUERDA) */
-        .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
-        
-        #colD .card { 
-            flex: none !important; 
-            height: 100px; /* Altura fixa para 303 e 520, compatível com as da esquerda */
-        }
-        .card[data-id="32002"] { 
-            flex: none !important; 
-            height: 100px !important; /* Altura fixa para a 32002 */
-            border-width: 3px; 
-        }
 
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
@@ -74,7 +69,6 @@
 
         .badge { position: absolute; top: 1px; left: 1px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; font-weight: bold; }
         .operador { color: #0056b3; font-weight: bold; font-size: 11px; text-align: center; }
-        .molde { font-size: 8px; color: #666; text-align: center; }
 
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
         .hover-destino { background: #e8f4fd !important; border-style: dashed !important; border-color: var(--azul) !important; }
@@ -95,18 +89,20 @@
         <div class="layout-superior">
             <div id="colE" class="coluna"></div>
             <div class="corredor-vertical">CORREDOR</div>
-            <div class="coluna">
-                <div id="central-equipe">
-                    <div class="controles-equipe">
-                        <input type="text" id="novo-op" placeholder="Op.">
-                        <button class="btn-add" onclick="addEquipe()">+</button>
-                    </div>
-                    <div id="lista-equipe" class="lista-nomes"></div>
-                    <div id="lixeira">🗑️</div>
+            
+            <div id="colD" class="coluna">
                 </div>
-                <div id="conteiner-maquinas-D"></div>
+
+            <div id="central-equipe">
+                <div class="controles-equipe">
+                    <input type="text" id="novo-op" placeholder="Add Op.">
+                    <button class="btn-add" onclick="addEquipe()">+</button>
+                </div>
+                <div id="lista-equipe" class="lista-nomes"></div>
+                <div id="lixeira">🗑️</div>
             </div>
         </div>
+        
         <div class="corredor-horizontal">CORREDOR</div>
         <div id="colB" class="rodape-injetoras"></div>
     </div>
@@ -115,11 +111,11 @@
 
     <div id="modal" class="modal">
         <div class="modal-box">
-            <h3 id="mTit" style="margin:0 0 10px 0;">Editar Máquina</h3>
-            <label>Operador:</label><input id="inOp" style="width:100%; margin-bottom:10px; padding:8px;">
-            <label>Molde:</label><input id="inMol" style="width:100%; margin-bottom:10px; padding:8px;">
+            <h3 style="margin-top:0;">Editar Máquina</h3>
+            <label>Operador:</label><input id="inOp" style="width:100%; padding:8px; margin:5px 0 15px;">
+            <label>Molde:</label><input id="inMol" style="width:100%; padding:8px; margin:5px 0 15px;">
             <label>Status:</label>
-            <select id="inSt" style="width:100%; margin-bottom:10px; padding:8px;"><option value="ON">LIGADA</option><option value="OFF">OFF</option></select>
+            <select id="inSt" style="width:100%; padding:8px; margin:5px 0 15px;"><option value="ON">LIGADA</option><option value="OFF">OFF</option></select>
             <button class="btn-salvar" onclick="salvar()">SALVAR</button>
             <button onclick="fecharModal()" style="width:100%; margin-top:10px; background:none; border:none; color:red;">Cancelar</button>
         </div>
@@ -174,7 +170,7 @@
                     { id: '1817', p: 'B', st: 'ON', op: '', mol: '', dif: 'M' },
                     { id: '1503', p: 'B', st: 'ON', op: '', mol: '', dif: 'D' }
                 ],
-                equipe: ["Exemplo 1"]
+                equipe: ["Exemplo"]
             };
             db.ref(CAMINHO).set(padrao);
         }
@@ -209,7 +205,7 @@
 
         function desenhar() {
             const elE = document.getElementById('colE');
-            const elD = document.getElementById('conteiner-maquinas-D');
+            const elD = document.getElementById('colD');
             const elB = document.getElementById('colB');
             elE.innerHTML = elD.innerHTML = elB.innerHTML = '';
 
