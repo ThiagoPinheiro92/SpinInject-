@@ -9,13 +9,12 @@
     
     <style>
         :root { --azul: #1e3a5f; --verde: #2ecc71; --amarelo: #f1c40f; --vermelho: #e74c3c; --cinza-corredor: #dfe6e9; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
         body { font-family: sans-serif; background: #f0f4f8; height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 5px; }
         
         header { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         h1 { font-size: 16px; color: var(--azul); }
         .status-resumo { font-size: 10px; color: #666; font-weight: bold; line-height: 1.1; }
-        .destaque-moinho { color: #e67e22; font-weight: 900; }
         
         .btn-top { border: none; padding: 8px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; cursor: pointer; margin-left: 3px; }
         .btn-whats { background: #25D366; }
@@ -27,13 +26,13 @@
         #colD { justify-content: flex-end; }
 
         #central-equipe { position: absolute; top: 0; right: 0; width: calc(50% - 15px); height: 45%; background: #eef2f7; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; border: 2px solid #cbd5e0; z-index: 10; }
-        .controles-equipe { display: flex; gap: 5px; margin-bottom: 8px; height: 35px; width: 100%; }
+        .controles-equipe { display: flex; gap: 5px; margin-bottom: 8px; height: 35px; }
         .controles-equipe input { flex: 1; min-width: 0; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .btn-add { background: var(--azul); color: white; border: none; width: 40px; flex-shrink: 0; border-radius: 4px; font-size: 20px; font-weight: bold; }
+        .btn-add { background: var(--azul); color: white; border: none; width: 40px; flex-shrink: 0; border-radius: 4px; font-size: 20px; }
         
-        .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; }
-        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; }
-        #lixeira { height: 35px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0.5; border-top: 1px solid #ccc; margin-top: auto; }
+        .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; flex: 1; }
+        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; user-select: none; }
+        #lixeira { height: 40px; display: flex; align-items: center; justify-content: center; font-size: 24px; opacity: 0.4; border-top: 1px solid #ccc; margin-top: 5px; }
 
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
@@ -49,28 +48,28 @@
         .status-OFF { background: #e0e0e0; border-color: #999 !important; opacity: 0.6; }
         
         .badge { position: absolute; top: 1px; left: 1px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; }
-        .operador { color: #0056b3; font-weight: bold; font-size: 11px; }
+        .operador { color: #0056b3; font-weight: bold; font-size: 11px; width: 100%; height: 15px; }
         .molde-label { font-size: 9px; color: #333; font-weight: bold; }
 
-        #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 95%; max-width: 400px; max-height: 95vh; overflow-y: auto; }
-        
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; }
-        .switch { position: relative; width: 50px; height: 24px; }
-        .switch input { opacity: 0; }
-        .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 34px; transition: .4s; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background: white; border-radius: 50%; transition: .4s; }
-        input:checked + .slider { background: var(--verde); }
-        input:checked + .slider:before { transform: translateX(26px); }
+        /* AVATAR ESTILIZADO */
+        #avatar-drag { 
+            position: fixed; 
+            pointer-events: none; 
+            display: none; 
+            z-index: 9999; 
+            background: rgba(30, 58, 95, 0.8); 
+            color: white; 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            white-space: nowrap;
+            transform: translate(-50%, -50%); /* Centraliza no dedo */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
 
-        .inp-full { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 14px; }
-        .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
-        .lista-moldes { max-height: 120px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
-        .item-molde { display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; }
-        .molde-ativo { border: 2px solid var(--azul); background: #e8f4fd; }
-        .bola-dif { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .bg-F { background: var(--verde); } .bg-M { background: var(--amarelo); } .bg-D { background: var(--vermelho); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
+        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 95%; max-width: 400px; }
         .btn-salvar { width: 100%; padding: 15px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
@@ -105,28 +104,12 @@
         <div id="colB" class="rodape-injetoras"></div>
     </div>
 
-    <div id="avatar-drag">👤</div>
+    <div id="avatar-drag"></div>
 
     <div id="modal" class="modal">
         <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modal-titulo">Editar</h3>
-                <label class="switch"><input type="checkbox" id="switchSt"><span class="slider"></span></label>
-            </div>
-            <input id="inOp" class="inp-full" placeholder="Operador">
-            <input id="inMolDisplay" class="inp-full" readonly style="background:#eee">
-            <div class="area-moldes">
-                <div style="display:flex; gap:5px; margin-bottom:5px">
-                    <input id="newMolCod" placeholder="Cód" style="flex:1; padding:5px">
-                    <select id="newMolDif"><option value="F">Verde</option><option value="M">Amarelo</option><option value="D">Vermelho</option></select>
-                </div>
-                <div style="display:flex; gap:5px">
-                    <input id="newMolNome" placeholder="Nome Molde" style="flex:2; padding:5px">
-                    <button onclick="addMolde()" style="padding:5px 10px">+</button>
-                </div>
-                <div id="lista-moldes-maquina" class="lista-moldes"></div>
-            </div>
-            <textarea id="inObs" class="inp-full" placeholder="Motivo de parada / Obs" rows="2" style="margin-top:10px"></textarea>
+            <h3 id="modal-titulo">Editar</h3>
+            <textarea id="inObs" class="inp-full" placeholder="Motivo de parada" rows="3" style="width:100%; margin-top:10px; padding:10px;"></textarea>
             <button class="btn-salvar" onclick="salvar()">SALVAR</button>
             <button onclick="fecharModal()" style="width:100%; border:none; padding:10px; color:red; background:none;">CANCELAR</button>
         </div>
@@ -145,151 +128,161 @@
         const db = firebase.database();
         const CAMINHO = 'plantas/escalaV3';
 
-        let maquinas = [], equipe = [], dragInfo = null, editId = null, tempDif = 'F';
+        let maquinas = [], equipe = [], dragData = null;
         const avatar = document.getElementById('avatar-drag');
 
         db.ref(CAMINHO).on('value', snap => {
             const data = snap.val();
-            if (data && data.maquinas) {
-                maquinas = data.maquinas;
+            if (data) {
+                maquinas = data.maquinas || [];
                 equipe = data.equipe || [];
                 desenhar();
                 desenharEquipe();
                 atualizarResumo();
-            } else { inicializarBanco(); }
+            }
         });
 
-        function atualizarResumo() {
-            const ligadas = maquinas.filter(m => m.st === 'ON').length;
-            const ops = new Set(maquinas.filter(m => m.op && m.st==='ON').map(m => m.op)).size;
-            const moinho = maquinas.some(m => (m.id==='32002' && m.st==='ON') || (m.mol && m.mol.toUpperCase().includes('MOINHO')));
-            document.getElementById('status-resumo').innerHTML = `
-                ${ligadas} Maq. ON | ${ops} Operadores<br>
-                ${moinho ? '<span class="destaque-moinho">+ 1 MOINHO ATIVO</span>' : 'Moinho Desligado'}
-            `;
+        // FUNÇÃO UNIFICADA DE DRAG
+        function iniciarDrag(e, nome, origemId = null) {
+            dragData = { nome: nome, origem: origemId };
+            avatar.innerText = nome;
+            avatar.style.display = 'block';
+            moverAvatar(e.touches[0]);
         }
 
-        function enviarParaSheets() {
-            const SCRIPT_URL = "SUA_URL_DO_APPS_SCRIPT"; // COLE AQUI SUA URL
-            if(SCRIPT_URL.includes("SUA_URL")) { alert("Configure a URL do Script primeiro!"); return; }
-
-            // Envia TODAS as máquinas para registrar motivos de parada
-            const payload = maquinas.map(m => ({
-                maquina: m.id,
-                operador: m.op || "---",
-                molde: m.mol || "---",
-                status: m.st,
-                obs: m.obs || "",
-                data: new Date().toLocaleString('pt-BR')
-            }));
-
-            fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
-            .then(() => alert("Dados enviados com sucesso!"))
-            .catch(e => alert("Erro ao enviar"));
+        function moverAvatar(touch) {
+            avatar.style.left = touch.clientX + 'px';
+            avatar.style.top = touch.clientY + 'px';
         }
 
-        // Restante das funções (Desenhar, Drag, Modal, etc) mantidas idênticas às correções anteriores
+        function finalizarDrag(e) {
+            avatar.style.display = 'none';
+            if (!dragData) return;
+
+            const touch = e.changedTouches[0];
+            const el = document.elementFromPoint(touch.clientX, touch.clientY);
+            const cardAlvo = el?.closest('.card');
+            const lixeiraAlvo = el?.closest('#lixeira');
+
+            // Se soltou na lixeira e veio da lista
+            if (lixeiraAlvo && !dragData.origem) {
+                equipe = equipe.filter(n => n !== dragData.nome);
+                db.ref(`${CAMINHO}/equipe`).set(equipe);
+            } 
+            // Se soltou em uma máquina
+            else if (cardAlvo) {
+                const idAlvo = cardAlvo.dataset.id;
+                const mAlvo = maquinas.find(x => x.id === idAlvo);
+                
+                // Se veio de outra máquina, limpa a origem
+                if (dragData.origem) {
+                    const mOrigem = maquinas.find(x => x.id === dragData.origem);
+                    if (mOrigem) mOrigem.op = '';
+                }
+                
+                mAlvo.op = dragData.nome;
+                db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            }
+            // Se soltou fora de tudo e veio de uma máquina (limpa a máquina)
+            else if (!cardAlvo && dragData.origem) {
+                const mOrigem = maquinas.find(x => x.id === dragData.origem);
+                if (mOrigem) {
+                    mOrigem.op = '';
+                    db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+                }
+            }
+
+            dragData = null;
+        }
+
+        function desenharEquipe() {
+            const container = document.getElementById('lista-equipe');
+            container.innerHTML = '';
+            equipe.forEach(nome => {
+                const tag = document.createElement('div');
+                tag.className = 'tag-op';
+                tag.innerText = nome;
+                tag.addEventListener('touchstart', (e) => iniciarDrag(e, nome), {passive: false});
+                tag.addEventListener('touchmove', (e) => { e.preventDefault(); moverAvatar(e.touches[0]); }, {passive: false});
+                tag.addEventListener('touchend', finalizarDrag);
+                container.appendChild(tag);
+            });
+        }
+
         function desenhar() {
             const cols = { E: document.getElementById('colE'), D: document.getElementById('colD'), B: document.getElementById('colB') };
             Object.values(cols).forEach(c => c.innerHTML = '');
+            
             maquinas.forEach(m => {
                 const card = document.createElement('div');
                 card.className = `card borda-${m.dif} ${m.st==='OFF'?'status-OFF':''}`;
                 card.setAttribute('data-id', m.id);
-                card.innerHTML = `<div class="badge">${m.id}</div><div class="operador">${m.op||'--'}</div><div class="molde-label">${m.mol||''}</div>`;
-                card.onclick = () => abrir(m.id);
+                card.innerHTML = `
+                    <div class="badge">${m.id}</div>
+                    <div class="operador" id="op-${m.id}">${m.op||''}</div>
+                    <div class="molde-label">${m.mol||''}</div>
+                `;
+
+                // Clique para abrir modal
+                card.onclick = (e) => { if(!dragData) abrir(m.id); };
+
+                // DRAG PARA MOVER OPERADOR DA MÁQUINA
+                const areaOp = card.querySelector('.operador');
+                areaOp.addEventListener('touchstart', (e) => {
+                    if(m.op) {
+                        e.stopPropagation();
+                        iniciarDrag(e, m.op, m.id);
+                    }
+                }, {passive: false});
+                
+                areaOp.addEventListener('touchmove', (e) => {
+                    if(dragData) { e.preventDefault(); moverAvatar(e.touches[0]); }
+                }, {passive: false});
+
+                areaOp.addEventListener('touchend', finalizarDrag);
+
                 cols[m.p].appendChild(card);
             });
         }
 
-        function abrir(id) {
-            editId = id; const m = maquinas.find(x=>x.id===id);
-            document.getElementById('modal-titulo').innerText = `INJETORA ${m.id}`;
-            document.getElementById('switchSt').checked = m.st==='ON';
-            document.getElementById('inOp').value = m.op;
-            document.getElementById('inMolDisplay').value = m.mol;
-            document.getElementById('inObs').value = m.obs || "";
-            tempDif = m.dif; renderMoldes();
-            document.getElementById('modal').style.display = 'flex';
+        function atualizarResumo() {
+            const ligadas = maquinas.filter(m => m.st === 'ON').length;
+            const ops = new Set(maquinas.filter(m => m.op && m.st==='ON').map(m => m.op)).size;
+            const moinho = maquinas.some(m => (m.id==='32002' && m.st==='ON'));
+            document.getElementById('status-resumo').innerHTML = `
+                ${ligadas} Maq. ON | ${ops} Operadores<br>
+                ${moinho ? '<span class="destaque-moinho">+ 1 MOINHO ATIVO</span>' : 'Moinho OFF'}
+            `;
         }
-
-        function renderMoldes() {
-            const m = maquinas.find(x=>x.id===editId);
-            const l = document.getElementById('lista-moldes-maquina'); l.innerHTML = '';
-            (m.moldes||[]).forEach((mo, i) => {
-                const item = document.createElement('div');
-                const txt = `${mo.cod} - ${mo.nome}`;
-                item.className = `item-molde ${document.getElementById('inMolDisplay').value===txt?'molde-ativo':''}`;
-                item.innerHTML = `<div><span class="bola-dif bg-${mo.dif}"></span>${txt}</div><b onclick="event.stopPropagation(); delMolde(${i})">✕</b>`;
-                item.onclick = () => { document.getElementById('inMolDisplay').value = txt; tempDif = mo.dif; renderMoldes(); };
-                l.appendChild(item);
-            });
-        }
-
-        function addMolde() {
-            const c = document.getElementById('newMolCod').value, n = document.getElementById('newMolNome').value, d = document.getElementById('newMolDif').value;
-            if(c && n) {
-                const m = maquinas.find(x=>x.id===editId); if(!m.moldes) m.moldes = [];
-                m.moldes.push({cod:c, nome:n, dif:d});
-                db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes();
-            }
-        }
-
-        function delMolde(i) {
-            const m = maquinas.find(x=>x.id===editId); m.moldes.splice(i, 1);
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes();
-        }
-
-        function salvar() {
-            const m = maquinas.find(x=>x.id===editId);
-            m.op = document.getElementById('inOp').value;
-            m.st = document.getElementById('switchSt').checked ? 'ON' : 'OFF';
-            m.mol = document.getElementById('inMolDisplay').value;
-            m.obs = document.getElementById('inObs').value;
-            m.dif = tempDif;
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas); fecharModal();
-        }
-
-        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
         function addEquipe() {
             const n = document.getElementById('novo-op').value.trim();
             if(n) { equipe.push(n); db.ref(`${CAMINHO}/equipe`).set(equipe); document.getElementById('novo-op').value=''; }
         }
 
-        function desenharEquipe() {
-            const c = document.getElementById('lista-equipe'); c.innerHTML = '';
-            equipe.forEach(n => {
-                const t = document.createElement('div'); t.className = 'tag-op'; t.innerText = n;
-                t.ontouchstart = (e) => { dragInfo = { tipo:'equipe', valor:n }; avatar.style.display='block'; };
-                t.ontouchend = (e) => { 
-                    avatar.style.display='none'; 
-                    const el = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-                    const dCard = el?.closest('.card');
-                    const dLix = el?.closest('#lixeira');
-                    if(dLix) { equipe = equipe.filter(x=>x!==n); db.ref(`${CAMINHO}/equipe`).set(equipe); }
-                    else if(dCard) { 
-                        const m = maquinas.find(x=>x.id===dCard.dataset.id); 
-                        m.op = n; db.ref(`${CAMINHO}/maquinas`).set(maquinas); 
-                    }
-                };
-                c.appendChild(t);
-            });
+        let editId = null;
+        function abrir(id) {
+            editId = id; const m = maquinas.find(x=>x.id===id);
+            document.getElementById('modal-titulo').innerText = `INJETORA ${m.id}`;
+            document.getElementById('inObs').value = m.obs || "";
+            document.getElementById('modal').style.display = 'flex';
         }
+
+        function salvar() {
+            const m = maquinas.find(x=>x.id===editId);
+            m.obs = document.getElementById('inObs').value;
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            fecharModal();
+        }
+
+        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function enviarParaSheets() { alert("URL do Sheets não configurada."); }
 
         function enviarWhats() {
             let t = "*ESCALA SPININJECT*\n";
-            maquinas.forEach(m => { if(m.st==='ON' && m.op) t += `🔹 INJ-${m.id}: ${m.op} [${m.mol}]\n`; });
+            maquinas.forEach(m => { if(m.st==='ON' && m.op) t += `🔹 ${m.id}: ${m.op} [${m.mol}]\n`; });
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(t));
-        }
-
-        function inicializarBanco() {
-            const mIds = ['905','638','639','648','644','643','408','407','303','520','32002','1816','1817','1503'];
-            const padrao = {
-                maquinas: mIds.map(id => ({ id, p: id==='303'||id==='520'||id==='32002'?'D':(id==='1816'||id==='1817'||id==='1503'?'B':'E'), st:'ON', op:'', mol:'', dif:'F', obs:'', moldes:[] })),
-                equipe: []
-            };
-            db.ref(CAMINHO).set(padrao);
         }
     </script>
 </body>
