@@ -21,9 +21,17 @@
         .layout-superior { 
             display: grid; 
             /* 1fr = Esquerda | 25px = Corredor | 1.5fr = Direita (Aumentei a direita) */
-            grid-template-columns: 1fr 25px 1.5fr; 
+            grid-template-columns: 1fr 25px 1fr; 
             gap: 5px; 
             height: 70%; 
+            /* Faz a 14 ser mais larga que as outras da mesma coluna */
+             .card[data-id="32002"] {
+    flex: 1.5; /* Ela cresce mais que a 12 e a 13 no sentido vertical */
+    min-width: 120%; /* Ela "pula" um pouco para fora se houver espaço ou ganha peso visual */
+    background-color:ffffff;
+    z-index: 1;
+}
+            
         }
 
         .corredor-horizontal { height: 20px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
