@@ -343,4 +343,80 @@
         }
 
         function abrir(id) {
-            edi
+            editId = id;
+            const m = maquinas.find(x => x.id === id);
+            document.getElementById('modal-titulo').innerText = `Editar Injetora ${m.id}`;
+            document.getElementById('switchSt').checked = (m.st === 'ON');
+            document.getElementById('inOp').value = m.op || '';
+            document.getElementById('inObs').value = m.obs || '';
+            document.getElementById('inMolDisplay').value = m.mol || '';
+            tempDif = m.dif || 'F';
+            renderizarListaMoldes(m);
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function renderizarListaMoldes(maquina) {
+            const lista = document.getElementById('lista-moldes-maquina');
+            lista.innerHTML = '';
+            if(!maquina.moldes) maquina.moldes = [];
+            maquina.moldes.forEach((molde, idx) => {
+                const item = document.createElement('div');
+                const textoCompleto = molde.cod + ' - ' + molde.nome;
+                item.className = `item-molde ${maquina.mol === textoCompleto ? 'molde-ativo' : ''}`;
+                item.innerHTML = `<div><span class="bola-dif bg-${molde.dif}"></span><b>${molde.cod}</b> - ${molde.nome}</div><span style="color:red;padding:10px;font-weight:bold;" onclick="removerMolde(event, ${idx})">✕</span>`;
+                item.onclick = (e) => { if(!e.target.innerText.includes('✕')) selecionarMolde(molde); };
+                lista.appendChild(item);
+            });
+        }
+
+        function addMolde() {
+            const cod = document.getElementById('newMolCod').value.trim();
+            const nome = document.getElementById('newMolNome').value.trim();
+            const dif = document.getElementById('newMolDif').value;
+            if(cod && nome) {
+                const m = maquinas.find(x => x.id === editId);
+                if(!m.moldes) m.moldes = [];
+                m.moldes.push({ cod, nome, dif });
+                document.getElementById('newMolCod').value = '';
+                document.getElementById('newMolNome').value = '';
+                db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+                renderizarListaMoldes(m);
+            }
+        }
+
+        function removerMolde(e, idx) {
+            e.stopPropagation();
+            const m = maquinas.find(x => x.id === editId);
+            m.moldes.splice(idx, 1);
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            renderizarListaMoldes(m);
+        }
+
+        function selecionarMolde(molde) {
+            document.getElementById('inMolDisplay').value = `${molde.cod} - ${molde.nome}`;
+            tempDif = molde.dif;
+            const m = maquinas.find(x => x.id === editId);
+            renderizarListaMoldes(m);
+        }
+
+        function salvar() {
+            const m = maquinas.find(x => x.id === editId);
+            m.op = document.getElementById('inOp').value;
+            m.obs = document.getElementById('inObs').value;
+            m.st = document.getElementById('switchSt').checked ? 'ON' : 'OFF';
+            m.mol = document.getElementById('inMolDisplay').value;
+            m.dif = tempDif;
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            fecharModal();
+        }
+
+        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function enviarWhats() {
+            let txt = "*ESCALA SPININJECT*\n";
+            maquinas.forEach(m => { if(m.st === 'ON' && m.op) txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; });
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt));
+        }
+    </script>
+</body>
+</html>
