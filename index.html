@@ -9,84 +9,29 @@
     
     <style>
         :root { --azul: #1e3a5f; --verde: #2ecc71; --amarelo: #f1c40f; --vermelho: #e74c3c; --cinza-corredor: #dfe6e9; }
-        
         * { box-sizing: border-box; }
-
-        body { 
-            font-family: sans-serif; 
-            background: #f0f4f8; 
-            margin: 0; 
-            padding: 5px; 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-            user-select: none; 
-        }
-
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 5px 10px; height: 45px; background: white; 
-            border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
-        }
-        
+        body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding: 5px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; height: 45px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         h1 { margin: 0; font-size: 16px; color: var(--azul); }
         .btn-whats { background: #25D366; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        /* Estrutura Principal */
-        .area-trabalho {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            gap: 5px;
-            padding-bottom: env(safe-area-inset-bottom); /* Respeita botões do Android */
-        }
+        .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; padding-bottom: env(safe-area-inset-bottom); }
 
-        /* Parte de Cima (Injetoras 1-8 e 12-14) */
+        /* --- AQUI VOCÊ CONTROLA A LARGURA --- */
         .layout-superior { 
             display: grid; 
-            grid-template-columns: 1fr 25px 1.2fr; 
+            /* 1fr = Esquerda | 25px = Corredor | 1.5fr = Direita (Aumentei a direita) */
+            grid-template-columns: 1fr 25px 1.5fr; 
             gap: 5px; 
-            height: 70%; /* Ocupa a maior parte */
+            height: 70%; 
         }
 
-        /* O Corredor que você pediu (Linha Vermelha) */
-        .corredor-horizontal {
-            height: 20px;
-            background: var(--cinza-corredor);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #b2bec3;
-            font-size: 9px;
-            font-weight: bold;
-            letter-spacing: 5px;
-        }
-
-        /* Parte de Baixo (Injetoras 9, 10, 11) */
-        .rodape-injetoras { 
-            display: flex; 
-            gap: 5px; 
-            height: 22%; 
-        }
-
+        .corredor-horizontal { height: 20px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
+        .rodape-injetoras { display: flex; gap: 5px; height: 22%; }
         .coluna { display: flex; flex-direction: column; gap: 4px; }
-        .corredor-vertical { 
-            background: var(--cinza-corredor); 
-            display: flex; align-items: center; justify-content: center; 
-            color: #b2bec3; writing-mode: vertical-rl; 
-            border-radius: 4px; font-weight: bold; font-size: 8px; 
-        }
+        .corredor-vertical { background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; writing-mode: vertical-rl; border-radius: 4px; font-weight: bold; font-size: 8px; }
 
-        /* Cartões Ultra Compactos */
-        .card { 
-            background: white; border: 2px solid #ccc; border-radius: 5px; 
-            padding: 2px; flex: 1; position: relative; 
-            display: flex; flex-direction: column; justify-content: center; 
-            touch-action: none; min-height: 0;
-        }
-
+        .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
         .borda-D { border-color: var(--vermelho); }
@@ -100,7 +45,6 @@
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 25px; }
         .hover-destino { background: #e8f4fd !important; border-style: dashed !important; }
 
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 15px; border-radius: 8px; width: 90%; max-height: 95vh; overflow-y: auto; }
         label { font-size: 12px; font-weight: bold; color: var(--azul); }
@@ -109,14 +53,13 @@
     </style>
 </head>
 <body>
-
     <header>
         <h1>SpinInject Cloud</h1>
         <button class="btn-whats" onclick="enviarWhats()">Enviar Escala</button>
     </header>
 
     <div id="loading" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10001; background:white; padding:15px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.2)">
-        Sincronizando...
+        Criando nova planta...
     </div>
 
     <div class="area-trabalho">
@@ -125,9 +68,7 @@
             <div class="corredor-vertical">CORREDOR</div>
             <div id="colD" class="coluna"></div>
         </div>
-
         <div class="corredor-horizontal">CORREDOR</div>
-
         <div id="colB" class="rodape-injetoras"></div>
     </div>
 
@@ -139,18 +80,10 @@
             <label>Operador:</label><input id="inOp">
             <label>Molde:</label><input id="inMol">
             <label>Dificuldade:</label>
-            <select id="inDif">
-                <option value="F">Fácil</option>
-                <option value="M">Média</option>
-                <option value="D">Difícil</option>
-            </select>
+            <select id="inDif"><option value="F">Fácil</option><option value="M">Média</option><option value="D">Difícil</option></select>
             <label>Status:</label>
-            <select id="inSt">
-                <option value="ON">LIGADA</option>
-                <option value="OFF">OFF</option>
-            </select>
-            <label>Observação:</label>
-            <textarea id="inObs"></textarea>
+            <select id="inSt"><option value="ON">LIGADA</option><option value="OFF">OFF</option></select>
+            <label>Observação:</label><textarea id="inObs"></textarea>
             <button class="btn-salvar" onclick="salvar()">SALVAR</button>
             <button onclick="fecharModal()" style="width:100%; margin-top:8px; border:none; color:red; background:none">Cancelar</button>
         </div>
@@ -166,22 +99,54 @@
             messagingSenderId: "213435079930",
             appId: "1:213435079930:web:79d9ff17723bbdc2a1bd43"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        
+        // --- ATENÇÃO: MUDEI O NOME AQUI PARA 'escalaV2' PARA RESETAR OS DADOS ---
+        const CAMINHO_BANCO = 'plantas/escalaV2'; 
+
         let maquinas = [];
         let editId = null;
         let dragId = null;
         const avatar = document.getElementById('avatar-drag');
 
-        db.ref('plantas/escalaAtual').on('value', (snapshot) => {
+        db.ref(CAMINHO_BANCO).on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 maquinas = data;
                 document.getElementById('loading').style.display = 'none';
                 desenhar();
+            } else {
+                // Se não existir dados na V2, ele cria com os novos números abaixo
+                inicializarBanco();
             }
         });
+
+        // --- EDITE OS NÚMEROS DAS MÁQUINAS AQUI ---
+        function inicializarBanco() {
+            const padrao = [
+                // Coluna ESQUERDA (p: 'E')
+                { id: '905', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '638', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
+                { id: '639', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '648', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '' },
+                { id: '644', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '643', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
+                { id: '408', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '' },
+                { id: '407', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
+
+                // Coluna DIREITA (p: 'D') - Adicionei mais uma para teste
+                { id: '1816', p: 'D', st: 'OFF', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '1817', p: 'D', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '1503', p: 'D', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
+
+                // Rodapé (p: 'B')
+                { id: '303', p: 'B', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
+                { id: '520', p: 'B', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
+                { id: '32001', p: 'B', st: 'ON', op: '', mol: '', dif: 'D', obs: '' }
+            ];
+            db.ref(CAMINHO_BANCO).set(padrao);
+        }
 
         function desenhar() {
             const elE = document.getElementById('colE');
@@ -193,87 +158,35 @@
                 const card = document.createElement('div');
                 card.className = `card borda-${m.dif} ${m.st === 'OFF' ? 'status-OFF' : ''}`;
                 card.setAttribute('data-id', m.id);
-                card.innerHTML = `
-                    <div class="badge">${m.id}</div>
-                    <div class="operador">${m.op || '--'}</div>
-                    <div class="molde">${m.mol || ''}</div>
-                    <div class="obs-preview">${m.obs || ''}</div>
-                `;
-
+                card.innerHTML = `<div class="badge">${m.id}</div><div class="operador">${m.op || '--'}</div><div class="molde">${m.mol || ''}</div><div class="obs-preview">${m.obs || ''}</div>`;
+                
                 card.onclick = () => { if(!dragId) abrir(m.id); };
                 card.ontouchstart = (e) => { if(!m.op) return; dragId = m.id; avatar.style.display = 'block'; moverAvatar(e.touches[0]); };
-                card.ontouchmove = (e) => {
-                    if(!dragId) return;
-                    moverAvatar(e.touches[0]);
-                    const alvo = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-                    const cardAlvo = alvo ? alvo.closest('.card') : null;
-                    document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
-                    if(cardAlvo) cardAlvo.classList.add('hover-destino');
-                };
-                card.ontouchend = (e) => {
-                    if(!dragId) return;
-                    avatar.style.display = 'none';
-                    const t = e.changedTouches[0];
-                    const el = document.elementFromPoint(t.clientX, t.clientY);
-                    const dest = el ? el.closest('.card') : null;
-                    if(dest) {
-                        const idD = dest.getAttribute('data-id');
-                        const mO = maquinas.find(x => x.id === dragId);
-                        const mD = maquinas.find(x => x.id === idD);
-                        if(mO && mD && idD !== dragId && mD.st !== 'OFF') {
-                            mD.op = mO.op; mO.op = '';
-                            db.ref('plantas/escalaAtual').set(maquinas);
-                        }
-                    }
-                    dragId = null;
-                    document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
-                };
+                card.ontouchmove = (e) => { if(!dragId) return; moverAvatar(e.touches[0]); const alvo = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY); const cardAlvo = alvo ? alvo.closest('.card') : null; document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino')); if(cardAlvo) cardAlvo.classList.add('hover-destino'); };
+                card.ontouchend = (e) => { if(!dragId) return; avatar.style.display = 'none'; const t = e.changedTouches[0]; const el = document.elementFromPoint(t.clientX, t.clientY); const dest = el ? el.closest('.card') : null; if(dest) { const idD = dest.getAttribute('data-id'); const mO = maquinas.find(x => x.id === dragId); const mD = maquinas.find(x => x.id === idD); if(mO && mD && idD !== dragId && mD.st !== 'OFF') { mD.op = mO.op; mO.op = ''; db.ref(CAMINHO_BANCO).set(maquinas); } } dragId = null; document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino')); };
 
-                if (m.p === 'E') elE.appendChild(card);
-                else if (m.p === 'D') elD.appendChild(card);
-                else elB.appendChild(card);
+                if (m.p === 'E') elE.appendChild(card); else if (m.p === 'D') elD.appendChild(card); else elB.appendChild(card);
             });
         }
 
-        function moverAvatar(toque) {
-            avatar.style.left = (toque.clientX - 12) + 'px';
-            avatar.style.top = (toque.clientY - 30) + 'px';
-        }
-
+        function moverAvatar(toque) { avatar.style.left = (toque.clientX - 12) + 'px'; avatar.style.top = (toque.clientY - 30) + 'px'; }
+        
         function abrir(id) {
             editId = id;
             const m = maquinas.find(x => x.id === id);
-            document.getElementById('inOp').value = m.op;
-            document.getElementById('inMol').value = m.mol || '';
-            document.getElementById('inDif').value = m.dif;
-            document.getElementById('inSt').value = m.st;
-            document.getElementById('inObs').value = m.obs || '';
+            document.getElementById('inOp').value = m.op; document.getElementById('inMol').value = m.mol || ''; document.getElementById('inDif').value = m.dif; document.getElementById('inSt').value = m.st; document.getElementById('inObs').value = m.obs || '';
             document.getElementById('modal').style.display = 'flex';
         }
 
         function salvar() {
             const m = maquinas.find(x => x.id === editId);
-            m.op = document.getElementById('inOp').value;
-            m.mol = document.getElementById('inMol').value;
-            m.dif = document.getElementById('inDif').value;
-            m.st = document.getElementById('inSt').value;
-            m.obs = document.getElementById('inObs').value;
-            db.ref('plantas/escalaAtual').set(maquinas);
+            m.op = document.getElementById('inOp').value; m.mol = document.getElementById('inMol').value; m.dif = document.getElementById('inDif').value; m.st = document.getElementById('inSt').value; m.obs = document.getElementById('inObs').value;
+            db.ref(CAMINHO_BANCO).set(maquinas);
             fecharModal();
         }
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
-
-        function enviarWhats() {
-            let txt = "*ESCALA SPININJECT*\n";
-            maquinas.forEach(m => { 
-                if(m.st === 'ON' && m.op) {
-                    txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; 
-                }
-            });
-            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt));
-        }
+        function enviarWhats() { let txt = "*ESCALA SPININJECT*\n"; maquinas.forEach(m => { if(m.st === 'ON' && m.op) { txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; } }); window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt)); }
     </script>
 </body>
 </html>
-
