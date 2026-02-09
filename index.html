@@ -12,7 +12,6 @@
         * { box-sizing: border-box; }
         body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding: 5px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
         
-        /* CABEÇALHO */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 5px 12px; height: 50px; background: white; border-radius: 8px; 
@@ -29,7 +28,6 @@
         .coluna { display: flex; flex-direction: column; gap: 4px; height: 100%; }
         #colD { justify-content: flex-end; }
 
-        /* CENTRAL DE EQUIPE */
         #central-equipe { 
             position: absolute; top: 0; right: 0; width: calc(50% - 15px); height: 45%; 
             background: #eef2f7; border-radius: 6px; padding: 8px; display: flex; 
@@ -43,7 +41,6 @@
         #lixeira { height: 35px; display: flex; align-items: center; justify-content: center; font-size: 22px; opacity: 0.5; border-top: 1px solid #ccc; margin-top: 4px; }
         .lixeira-ativa { background: #ff7675 !important; border-radius: 0 0 5px 5px; opacity: 1 !important; }
 
-        /* MÁQUINAS */
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
         .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
         #colD .card:not([data-id="32002"]) { flex: none; height: 11.5%; }
@@ -65,15 +62,12 @@
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
         .hover-destino { background: #e8f4fd !important; border-style: dashed !important; border-color: var(--azul) !important; }
 
-        /* MODAL ATUALIZADO */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 15px; border-radius: 8px; width: 92%; max-width: 400px; max-height: 90vh; overflow-y: auto; }
         
-        /* Cabeçalho do Modal com Switch */
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .modal-header h3 { margin: 0; font-size: 16px; color: var(--azul); }
         
-        /* Switch ON/OFF */
         .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
@@ -84,7 +78,6 @@
         .modal-label { font-size: 12px; font-weight: bold; color: var(--azul); display: block; margin-bottom: 2px; margin-top: 10px; }
         .inp-full { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         
-        /* Área de Moldes */
         .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e0e0e0; margin-top: 5px; }
         .form-molde { display: flex; gap: 5px; margin-bottom: 8px; }
         .form-molde input { padding: 5px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; }
@@ -97,7 +90,6 @@
             background: white; padding: 6px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; 
             font-size: 11px;
         }
-        .item-molde:hover { background: #eef2f7; }
         .molde-ativo { border: 2px solid var(--azul); background: #e8f4fd; }
         .bola-dif { width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; display: inline-block; }
         .bg-F { background: var(--verde); } .bg-M { background: var(--amarelo); } .bg-D { background: var(--vermelho); }
@@ -120,7 +112,6 @@
             <div id="colE" class="coluna"></div>
             <div class="corredor-vertical">CORREDOR</div>
             <div id="colD" class="coluna"></div>
-
             <div id="central-equipe">
                 <div class="controles-equipe">
                     <input type="text" id="novo-op" placeholder="Add Op.">
@@ -138,7 +129,6 @@
 
     <div id="modal" class="modal">
         <div class="modal-box">
-            
             <div class="modal-header">
                 <h3 id="modal-titulo">Editar Injetora</h3>
                 <label class="switch">
@@ -146,18 +136,15 @@
                     <span class="slider"></span>
                 </label>
             </div>
-
             <label class="modal-label">Operador:</label>
             <input id="inOp" class="inp-full">
-
-            <label class="modal-label">Molde Atual (Selecionar abaixo):</label>
-            <input id="inMolDisplay" class="inp-full" readonly placeholder="Selecione na lista..." style="background:#eee; font-weight:bold;">
-
+            <label class="modal-label">Molde Atual:</label>
+            <input id="inMolDisplay" class="inp-full" readonly placeholder="Selecione na lista abaixo..." style="background:#eee; font-weight:bold;">
             <label class="modal-label">Gerenciador de Moldes:</label>
             <div class="area-moldes">
                 <div class="form-molde">
                     <input id="newMolCod" placeholder="Cód." style="width: 25%;">
-                    <input id="newMolNome" placeholder="Nome do Molde" style="flex: 1;">
+                    <input id="newMolNome" placeholder="Nome" style="flex: 1;">
                     <select id="newMolDif" class="sel-dif-molde">
                         <option value="F">Verde</option>
                         <option value="M">Amar</option>
@@ -167,10 +154,8 @@
                 </div>
                 <div id="lista-moldes-maquina" class="lista-moldes"></div>
             </div>
-
             <label class="modal-label">Observação:</label>
             <textarea id="inObs" class="inp-full" rows="2"></textarea>
-
             <button class="btn-salvar" onclick="salvar()">SALVAR</button>
             <button onclick="fecharModal()" style="width:100%; margin-top:10px; background:none; border:none; color:red;">Cancelar</button>
         </div>
@@ -194,9 +179,7 @@
         let equipe = [];
         let dragInfo = null;
         let editId = null;
-        // Variável temporária para guardar a dificuldade do molde selecionado no modal
         let tempDif = 'F'; 
-
         const avatar = document.getElementById('avatar-drag');
 
         db.ref(CAMINHO).on('value', (snap) => {
@@ -234,7 +217,6 @@
             db.ref(CAMINHO).set(padrao);
         }
 
-        // --- FUNÇÕES DE ARRASTAR --- (Mantidas iguais)
         function addEquipe() {
             const nome = document.getElementById('novo-op').value.trim();
             if(nome) {
@@ -243,6 +225,7 @@
                 document.getElementById('novo-op').value = '';
             }
         }
+
         function desenharEquipe() {
             const container = document.getElementById('lista-equipe');
             container.innerHTML = '';
@@ -261,7 +244,58 @@
                 container.appendChild(tag);
             });
         }
+
+        function desenhar() {
+            const elE = document.getElementById('colE');
+            const elD = document.getElementById('colD');
+            const elB = document.getElementById('colB');
+            if(!elE || !elD || !elB) return;
+            elE.innerHTML = elD.innerHTML = elB.innerHTML = '';
+
+            maquinas.forEach(m => {
+                const card = document.createElement('div');
+                card.className = `card borda-${m.dif || 'F'} ${m.st === 'OFF' ? 'status-OFF' : ''}`;
+                card.setAttribute('data-id', m.id);
+                card.innerHTML = `
+                    <div class="badge">${m.id}</div>
+                    <div class="operador">${m.op || '--'}</div>
+                    <div class="molde-label">${m.mol || ''}</div>
+                    <div class="obs-preview">${m.obs || ''}</div>
+                `;
+                card.onclick = () => { if(!dragInfo) abrir(m.id); };
+                card.ontouchstart = (e) => { if(!m.op) return; dragInfo = { tipo: 'maquina', valor: m.id }; avatar.style.display = 'block'; moverAvatar(e.touches[0]); };
+                card.ontouchmove = (e) => {
+                    moverAvatar(e.touches[0]);
+                    const alvo = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+                    document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
+                    const dest = alvo ? alvo.closest('.card') : null;
+                    if(dest) dest.classList.add('hover-destino');
+                };
+                card.ontouchend = (e) => finalizarDrag(e.changedTouches[0]);
+
+                if (m.p === 'E') elE.appendChild(card); else if (m.p === 'D') elD.appendChild(card); else elB.appendChild(card);
+            });
+            atualizarResumo();
+        }
+
+        function atualizarResumo() {
+            let ligadas = 0, ops = new Set(), moinho = false;
+            maquinas.forEach(m => {
+                if(m.st === 'ON') {
+                    ligadas++;
+                    if(m.op) {
+                        if(m.op.toLowerCase() === 'moinho') moinho = true;
+                        else ops.add(m.op.toLowerCase());
+                    }
+                }
+            });
+            let txt = `${ligadas} Máquinas | ${ops.size} Operadores`;
+            if(moinho) txt += ` <span class="destaque-moinho">+ 1 Moinho</span>`;
+            document.getElementById('status-resumo').innerHTML = txt;
+        }
+
         function moverAvatar(t) { avatar.style.left = (t.clientX - 10) + 'px'; avatar.style.top = (t.clientY - 25) + 'px'; }
+
         function finalizarDrag(t) {
             avatar.style.display = 'none';
             const el = document.elementFromPoint(t.clientX, t.clientY);
@@ -280,8 +314,7 @@
                     const mOrigem = maquinas.find(x => x.id === dragInfo.valor);
                     const mDest = maquinas.find(x => x.id === destCard.getAttribute('data-id'));
                     if(mDest && mDest.id !== mOrigem.id && mDest.st !== 'OFF') {
-                        mDest.op = mOrigem.op;
-                        mOrigem.op = '';
+                        mDest.op = mOrigem.op; mOrigem.op = '';
                     }
                 } else if (destLista && dragInfo.tipo === 'maquina') {
                     const mOrigem = maquinas.find(x => x.id === dragInfo.valor);
@@ -294,54 +327,80 @@
             document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
         }
 
-        // --- RENDERIZAÇÃO ---
-        function desenhar() {
-            const elE = document.getElementById('colE');
-            const elD = document.getElementById('colD');
-            const elB = document.getElementById('colB');
-            elE.innerHTML = elD.innerHTML = elB.innerHTML = '';
-
-            maquinas.forEach(m => {
-                const card = document.createElement('div');
-                card.className = `card borda-${m.dif} ${m.st === 'OFF' ? 'status-OFF' : ''}`;
-                card.setAttribute('data-id', m.id);
-                card.innerHTML = `
-                    <div class="badge">${m.id}</div>
-                    <div class="operador">${m.op || '--'}</div>
-                    <div class="molde-label">${m.mol || ''}</div>
-                    <div class="obs-preview">${m.obs || ''}</div>
-                `;
-                
-                card.onclick = () => { if(!dragInfo) abrir(m.id); };
-                card.ontouchstart = (e) => { if(!m.op) return; dragInfo = { tipo: 'maquina', valor: m.id }; avatar.style.display = 'block'; moverAvatar(e.touches[0]); };
-                card.ontouchmove = (e) => {
-                    moverAvatar(e.touches[0]);
-                    const alvo = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-                    document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
-                    const dest = alvo ? alvo.closest('.card') : null;
-                    if(dest) dest.classList.add('hover-destino');
-                };
-                card.ontouchend = (e) => finalizarDrag(e.changedTouches[0]);
-
-                if (m.p === 'E') elE.appendChild(card); else if (m.p === 'D') elD.appendChild(card); else elB.appendChild(card);
-            });
-            atualizarResumo();
+        function abrir(id) {
+            editId = id;
+            const m = maquinas.find(x => x.id === id);
+            document.getElementById('modal-titulo').innerText = `Editar Injetora ${m.id}`;
+            document.getElementById('switchSt').checked = (m.st === 'ON');
+            document.getElementById('inOp').value = m.op || '';
+            document.getElementById('inObs').value = m.obs || '';
+            document.getElementById('inMolDisplay').value = m.mol || '';
+            tempDif = m.dif || 'F';
+            renderizarListaMoldes(m);
+            document.getElementById('modal').style.display = 'flex';
         }
 
-        function atualizarResumo() {
-            let maquinasLigadas = 0;
-            let operadoresUnicos = new Set();
-            let temMoinho = false;
-
-            maquinas.forEach(m => {
-                if (m.st === 'ON') {
-                    maquinasLigadas++;
-                    if (m.op) {
-                        const nomeNormalizado = m.op.trim().toLowerCase();
-                        if (nomeNormalizado === 'moinho') temMoinho = true;
-                        else operadoresUnicos.add(nomeNormalizado);
-                    }
-                }
+        function renderizarListaMoldes(maquina) {
+            const lista = document.getElementById('lista-moldes-maquina');
+            lista.innerHTML = '';
+            if(!maquina.moldes) maquina.moldes = [];
+            maquina.moldes.forEach((molde, idx) => {
+                const item = document.createElement('div');
+                item.className = `item-molde ${maquina.mol === molde.cod + ' - ' + molde.nome ? 'molde-ativo' : ''}`;
+                item.innerHTML = `<div><span class="bola-dif bg-${molde.dif}"></span><b>${molde.cod}</b> - ${molde.nome}</div><span style="color:red;padding:5px;" onclick="removerMolde(event, ${idx})">x</span>`;
+                item.onclick = (e) => { if(e.target.innerText !== 'x') selecionarMolde(molde); };
+                lista.appendChild(item);
             });
+        }
 
-            let texto = `${maquinasLigadas} Máquinas  |  ${operadoresUnicos.size} Operadores`;
+        function addMolde() {
+            const cod = document.getElementById('newMolCod').value.trim();
+            const nome = document.getElementById('newMolNome').value.trim();
+            const dif = document.getElementById('newMolDif').value;
+            if(cod && nome) {
+                const m = maquinas.find(x => x.id === editId);
+                if(!m.moldes) m.moldes = [];
+                m.moldes.push({ cod, nome, dif });
+                document.getElementById('newMolCod').value = '';
+                document.getElementById('newMolNome').value = '';
+                db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+                renderizarListaMoldes(m);
+            }
+        }
+
+        function removerMolde(e, idx) {
+            e.stopPropagation();
+            const m = maquinas.find(x => x.id === editId);
+            m.moldes.splice(idx, 1);
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            renderizarListaMoldes(m);
+        }
+
+        function selecionarMolde(molde) {
+            document.getElementById('inMolDisplay').value = `${molde.cod} - ${molde.nome}`;
+            tempDif = molde.dif;
+            const m = maquinas.find(x => x.id === editId);
+            renderizarListaMoldes(m);
+        }
+
+        function salvar() {
+            const m = maquinas.find(x => x.id === editId);
+            m.op = document.getElementById('inOp').value;
+            m.obs = document.getElementById('inObs').value;
+            m.st = document.getElementById('switchSt').checked ? 'ON' : 'OFF';
+            m.mol = document.getElementById('inMolDisplay').value;
+            m.dif = tempDif;
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
+            fecharModal();
+        }
+
+        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function enviarWhats() {
+            let txt = "*ESCALA SPININJECT*\n";
+            maquinas.forEach(m => { if(m.st === 'ON' && m.op) txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; });
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt));
+        }
+    </script>
+</body>
+</html>
