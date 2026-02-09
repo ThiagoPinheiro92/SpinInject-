@@ -17,7 +17,7 @@
 
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; padding-bottom: env(safe-area-inset-bottom); }
 
-        /* LARGURA IGUALADA: 1fr para Esquerda e 1fr para Direita */
+        /* Colunas com larguras horizontais idênticas */
         .layout-superior { 
             display: grid; 
             grid-template-columns: 1fr 25px 1fr; 
@@ -25,30 +25,32 @@
             height: 70%; 
         }
 
-        .corredor-horizontal { height: 20px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
-        .rodape-injetoras { display: flex; gap: 5px; height: 22%; }
-        
         .coluna { display: flex; flex-direction: column; gap: 4px; }
         
-        /* COLUNA DIREITA: Alinha tudo no fundo para sobrar espaço no topo */
+        /* Empurra as máquinas da direita para baixo e deixa o topo livre */
         #colD { justify-content: flex-end; }
 
         .corredor-vertical { background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; writing-mode: vertical-rl; border-radius: 4px; font-weight: bold; font-size: 8px; }
 
-        /* Estilo Base dos Cartões */
+        /* Cartão padrão (Esquerda e Rodapé) */
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
 
-        /* Ajuste das Máquinas da Direita (Não esticam, mantêm tamanho fixo) */
+        /* AJUSTE VERTICAL: Faz a 303 e 520 terem o mesmo comprimento da 905 */
         #colD .card {
-            flex: none;
-            height: 65px; /* Altura para 303 e 520 */
+            flex: none; /* Impede de esticar */
+            height: 11.5%; /* Aproximadamente o tamanho de 1/8 das máquinas da esquerda */
+            min-height: 50px;
         }
 
-        /* DESTAQUE DA 32002: Grande e imponente */
+        /* AJUSTE VERTICAL DA 32002: Ela permanece grande */
         .card[data-id="32002"] {
-            height: 140px !important; 
+            flex: none !important;
+            height: 30% !important; /* Bem mais comprida que as outras */
             border-width: 3px;
         }
+
+        .corredor-horizontal { height: 20px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
+        .rodape-injetoras { display: flex; gap: 5px; height: 22%; }
 
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
@@ -121,7 +123,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         
-        // Caminho do banco para carregar suas máquinas atuais
         const CAMINHO_BANCO = 'plantas/escalaV3'; 
 
         let maquinas = [];
