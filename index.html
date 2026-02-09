@@ -8,41 +8,52 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     
     <style>
+        /* Cores principais do sistema */
         :root { --azul: #1e3a5f; --verde: #2ecc71; --amarelo: #f1c40f; --vermelho: #e74c3c; --cinza-corredor: #dfe6e9; }
+        
+        /* Reset básico e travas de toque para celular */
         * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
         body { font-family: sans-serif; background: #f0f4f8; height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding: 5px; }
         
+        /* Cabeçalho */
         header { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         h1 { font-size: 16px; color: var(--azul); }
         .status-resumo { font-size: 10px; color: #666; font-weight: bold; line-height: 1.1; }
         .destaque-moinho { color: #e67e22; font-weight: 900; }
         
+        /* Botões do topo */
         .btn-top { border: none; padding: 8px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; cursor: pointer; margin-left: 3px; }
         .btn-whats { background: #25D366; }
         .btn-sheets { background: #4285F4; }
 
+        /* Estrutura do Layout (Injetoras e Equipe) */
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; }
         .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; position: relative; }
         .coluna { display: flex; flex-direction: column; gap: 4px; }
         #colD { justify-content: flex-end; }
 
+        /* Caixa azul da equipe */
         #central-equipe { position: absolute; top: 0; right: 0; width: calc(50% - 15px); height: 45%; background: #eef2f7; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; border: 2px solid #cbd5e0; z-index: 10; }
         .controles-equipe { display: flex; gap: 5px; margin-bottom: 8px; height: 35px; width: 100%; }
         .controles-equipe input { flex: 1; min-width: 0; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         .btn-add { background: var(--azul); color: white; border: none; width: 40px; flex-shrink: 0; border-radius: 4px; font-size: 20px; font-weight: bold; }
         
+        /* Nomes dos operadores (Tags) */
         .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; flex: 1; }
         .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; user-select: none; }
         #lixeira { height: 40px; display: flex; align-items: center; justify-content: center; font-size: 24px; opacity: 0.4; border-top: 1px solid #ccc; margin-top: 5px; }
 
+        /* Estilo dos Cards das Máquinas */
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
         #colD .card:not([data-id="32002"]) { flex: none; height: 11.5%; }
 
+        /* Corredores cinzas */
         .corredor-vertical { background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; writing-mode: vertical-rl; font-size: 8px; font-weight: bold; border-radius: 4px; }
         .corredor-horizontal { height: 18px; background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
         .rodape-injetoras { display: flex; gap: 5px; height: 20%; }
 
+        /* Cores de dificuldade e bordas */
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
         .borda-D { border-color: var(--vermelho); }
@@ -52,18 +63,22 @@
         .operador { color: #0056b3; font-weight: bold; font-size: 11px; min-height: 15px; width: 100%; }
         .molde-label { font-size: 9px; color: #333; font-weight: bold; }
 
+        /* Avatar que segue o dedo no arraste */
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; background: rgba(30, 58, 95, 0.9); color: white; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; transform: translate(-50%, -50%); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        /* MODAL COMPLETO */
+        /* Janela Modal de Edição */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
         .modal-box { background: white; padding: 15px; border-radius: 8px; width: 95%; max-width: 400px; max-height: 95vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        
+        /* Chave ON/OFF */
         .switch { position: relative; width: 50px; height: 24px; }
         .switch input { opacity: 0; }
         .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 34px; transition: .4s; }
         .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background: white; border-radius: 50%; transition: .4s; }
         input:checked + .slider { background: var(--verde); }
         input:checked + .slider:before { transform: translateX(26px); }
+        
         .inp-full { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 14px; }
         .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
         .lista-moldes { max-height: 150px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
@@ -135,6 +150,7 @@
     </div>
 
     <script>
+        // Configurações do seu banco de dados Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAgstf6o36yIiIL8KqR99ZF8fqHPLzUY3w",
             authDomain: "spininject.firebaseapp.com",
@@ -150,6 +166,7 @@
         let maquinas = [], equipe = [], dragData = null, editId = null, tempDif = 'F';
         const avatar = document.getElementById('avatar-drag');
 
+        // Escuta qualquer mudança no banco e atualiza a tela na hora
         db.ref(CAMINHO).on('value', snap => {
             const data = snap.val();
             if (data) {
@@ -161,48 +178,68 @@
             }
         });
 
+        // Atualiza os números do cabeçalho e o aviso do Moinho
         function atualizarResumo() {
+            // Conta máquinas ligadas
             const ligadas = maquinas.filter(m => m.st === 'ON').length;
-            const ops = new Set(maquinas.filter(m => m.op && m.st==='ON').map(m => m.op)).size;
-            const moinho = maquinas.some(m => (m.id==='32002' && m.st==='ON') || (m.mol && m.mol.toUpperCase().includes('MOINHO')));
+            
+            // Conta operadores únicos (sem contar o nome Moinho)
+            const ops = new Set(
+                maquinas.filter(m => m.op && m.st==='ON' && m.op.toUpperCase() !== 'MOINHO').map(m => m.op)
+            ).size;
+            
+            // Verifica se o operador "Moinho" está escalado em alguma máquina
+            const moinhoAtribuido = maquinas.some(m => m.op && m.op.toUpperCase() === 'MOINHO');
+
             document.getElementById('status-resumo').innerHTML = `
                 ${ligadas} Máquinas ON | ${ops} Operadores<br>
-                ${moinho ? '<span class="destaque-moinho">+ 1 MOINHO ATIVO</span>' : '<span style="color:#999">Moinho OFF</span>'}
+                ${moinhoAtribuido ? '<span class="destaque-moinho">+ 1 MOINHO ATIVO</span>' : '<span style="color:#999">Moinho OFF</span>'}
             `;
         }
 
-        // DRAG AND DROP PROFISSIONAL
+        // --- Lógica de Arrastar e Soltar (Drag and Drop) ---
         function iniciarDrag(e, nome, origemId = null) {
             dragData = { nome, origem: origemId };
             avatar.innerText = nome;
             avatar.style.display = 'block';
             moverAvatar(e.touches[0]);
         }
-        function moverAvatar(t) { avatar.style.left = t.clientX + 'px'; avatar.style.top = t.clientY + 'px'; }
+        function moverAvatar(t) { 
+            avatar.style.left = t.clientX + 'px'; 
+            avatar.style.top = t.clientY + 'px'; 
+        }
         function finalizarDrag(e) {
-            avatar.style.display = 'none'; if (!dragData) return;
+            avatar.style.display = 'none'; 
+            if (!dragData) return;
+            
             const t = e.changedTouches[0];
             const el = document.elementFromPoint(t.clientX, t.clientY);
             const card = el?.closest('.card'), lixeira = el?.closest('#lixeira');
 
+            // Se soltou na lixeira (remove da lista azul)
             if (lixeira && !dragData.origem) {
                 equipe = equipe.filter(n => n !== dragData.nome);
                 db.ref(`${CAMINHO}/equipe`).set(equipe);
-            } else if (card) {
-                if (dragData.origem) {
+            } 
+            // Se soltou em uma máquina
+            else if (card) {
+                if (dragData.origem) { // Se estava em outra máquina, limpa a antiga
                     const mO = maquinas.find(x => x.id === dragData.origem);
                     if (mO) mO.op = '';
                 }
                 const mA = maquinas.find(x => x.id === card.dataset.id);
                 mA.op = dragData.nome;
                 db.ref(`${CAMINHO}/maquinas`).set(maquinas);
-            } else if (!card && dragData.origem) {
+            } 
+            // Se soltou fora e veio de uma máquina (limpa a máquina)
+            else if (!card && dragData.origem) {
                 const mO = maquinas.find(x => x.id === dragData.origem);
                 if (mO) { mO.op = ''; db.ref(`${CAMINHO}/maquinas`).set(maquinas); }
             }
             dragData = null;
         }
 
+        // Desenha as injetoras na tela
         function desenhar() {
             const cols = { E: document.getElementById('colE'), D: document.getElementById('colD'), B: document.getElementById('colB') };
             Object.values(cols).forEach(c => c.innerHTML = '');
@@ -214,6 +251,7 @@
                 
                 card.onclick = (e) => { if(!dragData) abrir(m.id); };
                 
+                // Ativa o arraste de quem já está na máquina
                 const opArea = card.querySelector('.operador');
                 opArea.addEventListener('touchstart', (e) => { if(m.op){ e.stopPropagation(); iniciarDrag(e, m.op, m.id); } }, {passive:false});
                 opArea.addEventListener('touchmove', (e) => { if(dragData){ e.preventDefault(); moverAvatar(e.touches[0]); } }, {passive:false});
@@ -223,6 +261,7 @@
             });
         }
 
+        // Desenha os nomes na lista da equipe (caixa azul)
         function desenharEquipe() {
             const container = document.getElementById('lista-equipe'); container.innerHTML = '';
             equipe.forEach(n => {
@@ -234,6 +273,7 @@
             });
         }
 
+        // Abre o modal para editar máquina e moldes
         function abrir(id) {
             editId = id; const m = maquinas.find(x=>x.id===id);
             document.getElementById('modal-titulo').innerText = `EDITAR INJ-${m.id}`;
@@ -245,6 +285,7 @@
             document.getElementById('modal').style.display = 'flex';
         }
 
+        // Mostra a lista de moldes disponíveis dentro do modal
         function renderMoldes() {
             const m = maquinas.find(x=>x.id===editId);
             const l = document.getElementById('lista-moldes-maquina'); l.innerHTML = '';
@@ -258,6 +299,7 @@
             });
         }
 
+        // Adiciona um novo molde à máquina
         function addMolde() {
             const c = document.getElementById('newMolCod').value, n = document.getElementById('newMolNome').value, d = document.getElementById('newMolDif').value;
             if(c && n) {
@@ -267,11 +309,13 @@
             }
         }
 
+        // Apaga um molde da máquina
         function delMolde(i) {
             const m = maquinas.find(x=>x.id===editId); m.moldes.splice(i, 1);
             db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes();
         }
 
+        // Salva tudo o que foi alterado no modal para o Firebase
         function salvar() {
             const m = maquinas.find(x=>x.id===editId);
             m.op = document.getElementById('inOp').value;
@@ -283,17 +327,23 @@
         }
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
+
+        // Adiciona novo nome na lista de equipe
         function addEquipe() {
             const n = document.getElementById('novo-op').value.trim();
             if(n) { equipe.push(n); db.ref(`${CAMINHO}/equipe`).set(equipe); document.getElementById('novo-op').value=''; }
         }
+
+        // Gera o texto e abre o WhatsApp
         function enviarWhats() {
             let t = "*ESCALA SPININJECT*\n";
             maquinas.forEach(m => { if(m.st==='ON' && m.op) t += `🔹 ${m.id}: ${m.op} [${m.mol}]\n`; });
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(t));
         }
+
+        // Função para envio ao Google Sheets (precisa da URL configurada)
         function enviarParaSheets() {
-            alert("URL do Sheets não configurada.");
+            alert("URL do Google Sheets ainda não configurada no código.");
         }
     </script>
 </body>
