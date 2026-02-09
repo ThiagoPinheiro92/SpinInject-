@@ -8,60 +8,103 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     
     <style>
-        :root { --azul: #1e3a5f; --verde: #2ecc71; --amarelo: #f1c40f; --vermelho: #e74c3c; }
+        :root { --azul: #1e3a5f; --verde: #2ecc71; --amarelo: #f1c40f; --vermelho: #e74c3c; --cinza-corredor: #dfe6e9; }
         
-        /* Ajuste de Body para Android */
+        * { box-sizing: border-box; }
+
         body { 
             font-family: sans-serif; 
             background: #f0f4f8; 
             margin: 0; 
             padding: 5px; 
             height: 100vh; 
-            height: -webkit-fill-available; 
             display: flex; 
             flex-direction: column; 
             overflow: hidden; 
-            box-sizing: border-box; 
             user-select: none; 
         }
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; height: 40px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 5px 10px; height: 45px; background: white; 
+            border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+        }
+        
         h1 { margin: 0; font-size: 16px; color: var(--azul); }
-        .btn-whats { background: #25D366; color: white; border: none; padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .btn-whats { background: #25D366; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
-        /* Layout com margem de segurança inferior */
-        .layout-fabrica { 
-            display: grid; 
-            grid-template-columns: 1fr 30px 1fr; 
-            gap: 5px; 
-            flex: 1; 
-            min-height: 0;
-            padding-bottom: 70px; /* Margem para não sumir atrás dos botões do Android */
+        /* Estrutura Principal */
+        .area-trabalho {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 5px;
+            padding-bottom: env(safe-area-inset-bottom); /* Respeita botões do Android */
         }
 
-        .coluna { display: flex; flex-direction: column; gap: 4px; height: 100%; }
-        .corredor { display: flex; align-items: center; justify-content: center; background: #dfe6e9; color: #b2bec3; writing-mode: vertical-rl; border-radius: 4px; font-weight: bold; font-size: 9px; }
-        .rodape { display: flex; gap: 5px; height: 65px; margin-top: 5px; }
+        /* Parte de Cima (Injetoras 1-8 e 12-14) */
+        .layout-superior { 
+            display: grid; 
+            grid-template-columns: 1fr 25px 1.2fr; 
+            gap: 5px; 
+            height: 70%; /* Ocupa a maior parte */
+        }
 
-        .card { background: white; border: 2px solid #ccc; border-radius: 6px; padding: 4px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; transition: 0.2s; }
+        /* O Corredor que você pediu (Linha Vermelha) */
+        .corredor-horizontal {
+            height: 20px;
+            background: var(--cinza-corredor);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b2bec3;
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        /* Parte de Baixo (Injetoras 9, 10, 11) */
+        .rodape-injetoras { 
+            display: flex; 
+            gap: 5px; 
+            height: 22%; 
+        }
+
+        .coluna { display: flex; flex-direction: column; gap: 4px; }
+        .corredor-vertical { 
+            background: var(--cinza-corredor); 
+            display: flex; align-items: center; justify-content: center; 
+            color: #b2bec3; writing-mode: vertical-rl; 
+            border-radius: 4px; font-weight: bold; font-size: 8px; 
+        }
+
+        /* Cartões Ultra Compactos */
+        .card { 
+            background: white; border: 2px solid #ccc; border-radius: 5px; 
+            padding: 2px; flex: 1; position: relative; 
+            display: flex; flex-direction: column; justify-content: center; 
+            touch-action: none; min-height: 0;
+        }
+
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
         .borda-D { border-color: var(--vermelho); }
-        .status-OFF { background: #e0e0e0; border-color: #999 !important; opacity: 0.7; }
+        .status-OFF { background: #e0e0e0; border-color: #999 !important; opacity: 0.6; }
 
-        .badge { position: absolute; top: 2px; left: 2px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; font-weight: bold; }
-        .operador { color: #0056b3; font-weight: bold; font-size: 11px; text-align: center; margin-top: 5px; }
-        .molde { font-size: 8px; color: #666; text-align: center; }
+        .badge { position: absolute; top: 1px; left: 1px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; font-weight: bold; }
+        .operador { color: #0056b3; font-weight: bold; font-size: 11px; text-align: center; margin-top: 2px; line-height: 1; }
+        .molde { font-size: 8px; color: #666; text-align: center; line-height: 1; }
         .obs-preview { font-size: 7px; color: #999; text-align: center; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 30px; }
-        .hover-destino { background: #e8f4fd !important; transform: scale(1.02); border-style: dashed !important; }
+        #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 25px; }
+        .hover-destino { background: #e8f4fd !important; border-style: dashed !important; }
 
+        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 85%; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 90%; max-height: 95vh; overflow-y: auto; }
         label { font-size: 12px; font-weight: bold; color: var(--azul); }
-        input, select, textarea { width: 100%; margin: 5px 0 10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: sans-serif; }
-        textarea { height: 60px; resize: none; }
+        input, select, textarea { width: 100%; margin: 4px 0 8px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         .btn-salvar { width: 100%; padding: 12px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
@@ -72,52 +115,48 @@
         <button class="btn-whats" onclick="enviarWhats()">Enviar Escala</button>
     </header>
 
-    <div id="loading" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10001; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2)">
-        Conectando à nuvem...
+    <div id="loading" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10001; background:white; padding:15px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.2)">
+        Sincronizando...
     </div>
 
-    <div class="layout-fabrica">
-        <div id="colE" class="coluna"></div>
-        <div class="corredor">C O R R E D O R</div>
-        <div id="colD" class="coluna"></div>
+    <div class="area-trabalho">
+        <div class="layout-superior">
+            <div id="colE" class="coluna"></div>
+            <div class="corredor-vertical">CORREDOR</div>
+            <div id="colD" class="coluna"></div>
+        </div>
+
+        <div class="corredor-horizontal">CORREDOR</div>
+
+        <div id="colB" class="rodape-injetoras"></div>
     </div>
-    <div id="colB" class="rodape"></div>
 
     <div id="avatar-drag">👤</div>
 
     <div id="modal" class="modal">
         <div class="modal-box">
-            <h3 id="mTit" style="margin:0 0 10px 0; font-size: 16px;">Editar Injetora</h3>
-            
-            <label>Operador:</label>
-            <input id="inOp" placeholder="Nome do Operador">
-            
-            <label>Molde:</label>
-            <input id="inMol" placeholder="Ex: V8, Tampa...">
-            
+            <h3 id="mTit" style="margin:0 0 10px 0; font-size: 16px;">Editar</h3>
+            <label>Operador:</label><input id="inOp">
+            <label>Molde:</label><input id="inMol">
             <label>Dificuldade:</label>
             <select id="inDif">
-                <option value="F">Fácil (Verde)</option>
-                <option value="M">Média (Amarela)</option>
-                <option value="D">Difícil (Vermelha)</option>
+                <option value="F">Fácil</option>
+                <option value="M">Média</option>
+                <option value="D">Difícil</option>
             </select>
-            
             <label>Status:</label>
             <select id="inSt">
                 <option value="ON">LIGADA</option>
-                <option value="OFF">OFF (Desativada)</option>
+                <option value="OFF">OFF</option>
             </select>
-
             <label>Observação:</label>
-            <textarea id="inObs" placeholder="Ex: Aquecendo, manutenção..."></textarea>
-
-            <button class="btn-salvar" onclick="salvar()">SALVAR NA NUVEM</button>
-            <button onclick="fecharModal()" style="width:100%; margin-top:8px; background:none; border:none; color:red">Cancelar</button>
+            <textarea id="inObs"></textarea>
+            <button class="btn-salvar" onclick="salvar()">SALVAR</button>
+            <button onclick="fecharModal()" style="width:100%; margin-top:8px; border:none; color:red; background:none">Cancelar</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURAÇÃO FIREBASE ---
         const firebaseConfig = {
             apiKey: "AIzaSyAgstf6o36yIiIL8KqR99ZF8fqHPLzUY3w",
             authDomain: "spininject.firebaseapp.com",
@@ -130,14 +169,10 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
         let maquinas = [];
         let editId = null;
         let dragId = null;
         const avatar = document.getElementById('avatar-drag');
-
-        // URL DO SEU GOOGLE SHEETS SCRIPT (COLE AQUI DEPOIS)
-        const URL_GOOGLE_SHEETS = "COLE_AQUI_A_URL_DO_SEU_SCRIPT_DO_GOOGLE";
 
         db.ref('plantas/escalaAtual').on('value', (snapshot) => {
             const data = snapshot.val();
@@ -145,23 +180,8 @@
                 maquinas = data;
                 document.getElementById('loading').style.display = 'none';
                 desenhar();
-            } else {
-                inicializarBanco();
             }
         });
-
-        function inicializarBanco() {
-            const padrao = [
-                { id: '01', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' }, { id: '02', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
-                { id: '03', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' }, { id: '04', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '' },
-                { id: '05', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '' }, { id: '06', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
-                { id: '07', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '' }, { id: '08', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '' },
-                { id: '12', p: 'D', st: 'OFF', op: '', mol: '', dif: 'F', obs: '' }, { id: '13', p: 'D', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
-                { id: '14', p: 'D', st: 'ON', op: '', mol: '', dif: 'M', obs: '' }, { id: '09', p: 'B', st: 'ON', op: '', mol: '', dif: 'F', obs: '' },
-                { id: '10', p: 'B', st: 'ON', op: '', mol: '', dif: 'M', obs: '' }, { id: '11', p: 'B', st: 'ON', op: '', mol: '', dif: 'D', obs: '' }
-            ];
-            db.ref('plantas/escalaAtual').set(padrao);
-        }
 
         function desenhar() {
             const elE = document.getElementById('colE');
@@ -181,7 +201,6 @@
                 `;
 
                 card.onclick = () => { if(!dragId) abrir(m.id); };
-
                 card.ontouchstart = (e) => { if(!m.op) return; dragId = m.id; avatar.style.display = 'block'; moverAvatar(e.touches[0]); };
                 card.ontouchmove = (e) => {
                     if(!dragId) return;
@@ -191,7 +210,6 @@
                     document.querySelectorAll('.card').forEach(c => c.classList.remove('hover-destino'));
                     if(cardAlvo) cardAlvo.classList.add('hover-destino');
                 };
-
                 card.ontouchend = (e) => {
                     if(!dragId) return;
                     avatar.style.display = 'none';
@@ -218,14 +236,13 @@
         }
 
         function moverAvatar(toque) {
-            avatar.style.left = (toque.clientX - 15) + 'px';
-            avatar.style.top = (toque.clientY - 40) + 'px';
+            avatar.style.left = (toque.clientX - 12) + 'px';
+            avatar.style.top = (toque.clientY - 30) + 'px';
         }
 
         function abrir(id) {
             editId = id;
             const m = maquinas.find(x => x.id === id);
-            document.getElementById('mTit').innerText = "Injetora " + id;
             document.getElementById('inOp').value = m.op;
             document.getElementById('inMol').value = m.mol || '';
             document.getElementById('inDif').value = m.dif;
@@ -241,30 +258,8 @@
             m.dif = document.getElementById('inDif').value;
             m.st = document.getElementById('inSt').value;
             m.obs = document.getElementById('inObs').value;
-            
-            // Envia para o Firebase
             db.ref('plantas/escalaAtual').set(maquinas);
-            
-            // Envia para o Histórico no Google Sheets
-            salvarNoSheets({
-                injetora: editId,
-                operador: m.op,
-                molde: m.mol,
-                dificuldade: m.dif,
-                obs: m.obs
-            });
-
             fecharModal();
-        }
-
-        function salvarNoSheets(dados) {
-            if(URL_GOOGLE_SHEETS.includes("COLE_AQUI")) return;
-            fetch(URL_GOOGLE_SHEETS, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(dados)
-            });
         }
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
@@ -272,8 +267,8 @@
         function enviarWhats() {
             let txt = "*ESCALA SPININJECT*\n";
             maquinas.forEach(m => { 
-                if(m.st === 'ON') {
-                    txt += `🔹 INJ-${m.id}: ${m.op || 'Vazia'} ${m.mol ? '['+m.mol+']' : ''} ${m.obs ? ' - Obs: '+m.obs : ''}\n`; 
+                if(m.st === 'ON' && m.op) {
+                    txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; 
                 }
             });
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt));
