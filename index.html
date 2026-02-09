@@ -29,7 +29,6 @@
         .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; }
         .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; }
         #lixeira { height: 35px; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0.5; border-top: 1px solid #ccc; }
-        .lixeira-ativa { background: #ff7675 !important; opacity: 1 !important; }
 
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
@@ -46,7 +45,7 @@
         
         .badge { position: absolute; top: 1px; left: 1px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; }
         .operador { color: #0056b3; font-weight: bold; font-size: 11px; }
-        .molde-label { font-size: 9px; color: #333; font-weight: 500; }
+        .molde-label { font-size: 9px; color: #333; font-weight: bold; }
 
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
@@ -63,11 +62,13 @@
         .inp-full { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 14px; }
         .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #ddd; }
         .form-molde-row { display: flex; gap: 5px; margin-bottom: 5px; }
-        .lista-moldes { max-height: 120px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
-        .item-molde { display: flex; justify-content: space-between; background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; }
-        .molde-ativo { border: 2px solid var(--azul); background: #e8f4fd; }
-        .bola-dif { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-        .btn-salvar { width: 100%; padding: 15px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
+        .lista-moldes { max-height: 150px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .item-molde { display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; cursor: pointer; }
+        .item-molde:active { background: #e0e0e0; }
+        .molde-ativo { border: 2.5px solid var(--azul) !important; background: #e8f4fd; font-weight: bold; }
+        .bola-dif { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .bg-F { background: var(--verde); } .bg-M { background: var(--amarelo); } .bg-D { background: var(--vermelho); }
+        .btn-salvar { width: 100%; padding: 15px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -103,22 +104,27 @@
                 <h3 id="modal-titulo">Editar</h3>
                 <label class="switch"><input type="checkbox" id="switchSt"><span class="slider"></span></label>
             </div>
-            <input id="inOp" class="inp-full" placeholder="Operador">
-            <input id="inMolDisplay" class="inp-full" readonly placeholder="Selecione o molde abaixo" style="background:#eee">
+            <label style="font-size:11px; font-weight:bold; color:var(--azul)">OPERADOR:</label>
+            <input id="inOp" class="inp-full" placeholder="Nome do operador">
+            
+            <label style="font-size:11px; font-weight:bold; color:var(--azul)">MOLDE SELECIONADO:</label>
+            <input id="inMolDisplay" class="inp-full" readonly placeholder="Clique em um molde da lista abaixo" style="background:#f0f0f0; border: 2px solid #ccc;">
+            
             <div class="area-moldes">
+                <p style="font-size:11px; font-weight:bold; margin-bottom:5px">CADASTRAR NOVO MOLDE:</p>
                 <div class="form-molde-row">
-                    <input id="newMolCod" placeholder="Cód. Molde" style="flex:2; padding:8px;">
+                    <input id="newMolCod" placeholder="Cód." style="flex:1.5; padding:8px;">
                     <select id="newMolDif" style="flex:1;"><option value="F">Verde</option><option value="M">Amarelo</option><option value="D">Vermelho</option></select>
                 </div>
                 <div class="form-molde-row">
                     <input id="newMolNome" placeholder="Nome do Molde" style="flex:3; padding:8px;">
-                    <button onclick="addMolde()" style="flex:1; background:var(--azul); color:white; border:none; border-radius:4px;">+</button>
+                    <button onclick="addMolde()" style="flex:1; background:var(--azul); color:white; border:none; border-radius:4px; font-weight:bold">ADD</button>
                 </div>
                 <div id="lista-moldes-maquina" class="lista-moldes"></div>
             </div>
-            <textarea id="inObs" class="inp-full" placeholder="Observação" rows="2" style="margin-top:10px"></textarea>
-            <button class="btn-salvar" onclick="salvar()">SALVAR</button>
-            <button onclick="fecharModal()" style="width:100%; padding:10px; background:none; border:none; color:red;">Cancelar</button>
+            <textarea id="inObs" class="inp-full" placeholder="Observação..." rows="2" style="margin-top:10px"></textarea>
+            <button class="btn-salvar" onclick="salvar()">SALVAR ALTERAÇÕES</button>
+            <button onclick="fecharModal()" style="width:100%; padding:10px; background:none; border:none; color:red; font-weight:bold">CANCELAR</button>
         </div>
     </div>
 
@@ -204,38 +210,67 @@
 
         function abrir(id) {
             editId = id; const m = maquinas.find(x=>x.id===id);
-            document.getElementById('modal-titulo').innerText = `Injetora ${m.id}`;
+            document.getElementById('modal-titulo').innerText = `EDITAR INJETORA ${m.id}`;
             document.getElementById('switchSt').checked = m.st==='ON';
             document.getElementById('inOp').value = m.op;
             document.getElementById('inMolDisplay').value = m.mol;
             document.getElementById('inObs').value = m.obs;
-            tempDif = m.dif; renderMoldes(m);
+            tempDif = m.dif; 
+            renderMoldes();
             document.getElementById('modal').style.display = 'flex';
         }
 
-        function renderMoldes(m) {
-            const l = document.getElementById('lista-moldes-maquina'); l.innerHTML = '';
-            (m.moldes||[]).forEach((mo, i) => {
-                const item = document.createElement('div'); item.className = `item-molde ${m.mol===mo.cod+' - '+mo.nome?'molde-ativo':''}`;
-                item.innerHTML = `<div><span class="bola-dif bg-${mo.dif}"></span>${mo.cod} - ${mo.nome}</div><b onclick="delMolde(${i})">✕</b>`;
-                item.onclick = (e) => { if(e.target.tagName!=='B') { document.getElementById('inMolDisplay').value = `${mo.cod} - ${mo.nome}`; tempDif = mo.dif; renderMoldes(m); } };
+        function renderMoldes() {
+            const m = maquinas.find(x=>x.id===editId);
+            const l = document.getElementById('lista-moldes-maquina'); 
+            l.innerHTML = '';
+            
+            if(!m.moldes) m.moldes = [];
+
+            m.moldes.forEach((mo, i) => {
+                const item = document.createElement('div'); 
+                const nomeCompleto = `${mo.cod} - ${mo.nome}`;
+                item.className = `item-molde ${document.getElementById('inMolDisplay').value === nomeCompleto ? 'molde-ativo' : ''}`;
+                
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; flex:1">
+                        <span class="bola-dif bg-${mo.dif}"></span>
+                        <span>${nomeCompleto}</span>
+                    </div>
+                    <b style="color:red; padding:10px; font-size:18px" onclick="event.stopPropagation(); delMolde(${i})">✕</b>
+                `;
+                
+                // FUNÇÃO DE CLIQUE CORRIGIDA
+                item.onclick = () => {
+                    document.getElementById('inMolDisplay').value = nomeCompleto;
+                    tempDif = mo.dif;
+                    renderMoldes(); // Redesenha para mostrar qual está ativo
+                };
+                
                 l.appendChild(item);
             });
         }
 
         function addMolde() {
-            const c = document.getElementById('newMolCod').value, n = document.getElementById('newMolNome').value, d = document.getElementById('newMolDif').value;
+            const c = document.getElementById('newMolCod').value.trim();
+            const n = document.getElementById('newMolNome').value.trim();
+            const d = document.getElementById('newMolDif').value;
             if(c && n) {
-                const m = maquinas.find(x=>x.id===editId); if(!m.moldes) m.moldes = [];
+                const m = maquinas.find(x=>x.id===editId); 
+                if(!m.moldes) m.moldes = [];
                 m.moldes.push({cod:c, nome:n, dif:d});
-                document.getElementById('newMolCod').value=''; document.getElementById('newMolNome').value='';
-                db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes(m);
-            }
+                document.getElementById('newMolCod').value=''; 
+                document.getElementById('newMolNome').value='';
+                db.ref(`${CAMINHO}/maquinas`).set(maquinas); 
+                renderMoldes();
+            } else { alert("Preencha Cód e Nome!"); }
         }
 
         function delMolde(i) {
-            const m = maquinas.find(x=>x.id===editId); m.moldes.splice(i, 1);
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes(m);
+            const m = maquinas.find(x=>x.id===editId); 
+            m.moldes.splice(i, 1);
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas); 
+            renderMoldes();
         }
 
         function salvar() {
@@ -245,7 +280,8 @@
             m.mol = document.getElementById('inMolDisplay').value;
             m.obs = document.getElementById('inObs').value;
             m.dif = tempDif;
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas); fecharModal();
+            db.ref(`${CAMINHO}/maquinas`).set(maquinas); 
+            fecharModal();
         }
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
