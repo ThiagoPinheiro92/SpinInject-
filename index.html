@@ -17,38 +17,55 @@
         .btn-whats { background: #25D366; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
 
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; padding-bottom: env(safe-area-inset-bottom); }
-        .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; }
-        .coluna { display: flex; flex-direction: column; gap: 4px; }
         
-        /* CENTRAL DE OPERADORES */
+        /* Layout Superior: Mantendo as proporções originais */
+        .layout-superior { display: grid; grid-template-columns: 1fr 25px 1fr; gap: 5px; height: 72%; }
+        .coluna { display: flex; flex-direction: column; gap: 4px; height: 100%; }
+        
+        /* CENTRAL DE EQUIPE: Ocupa apenas o topo da coluna direita */
         #central-equipe { 
             background: #e2e8f0; border-radius: 6px; padding: 5px; 
-            display: flex; flex-direction: column; flex: 1; 
-            margin-bottom: 5px; border: 2px solid #cbd5e0; position: relative;
+            display: flex; flex-direction: column; 
+            flex: 1; /* Ocupa o espaço que sobra no topo */
+            margin-bottom: 5px; border: 2px solid #cbd5e0; overflow: hidden;
         }
         .controles-equipe { display: flex; gap: 3px; margin-bottom: 5px; }
-        .controles-equipe input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .btn-add { background: var(--azul); color: white; border: none; padding: 0 12px; border-radius: 4px; font-size: 18px; }
+        .controles-equipe input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
+        .btn-add { background: var(--azul); color: white; border: none; padding: 0 10px; border-radius: 4px; font-size: 16px; }
         
         .lista-nomes { display: flex; flex-wrap: wrap; gap: 4px; overflow-y: auto; align-content: flex-start; flex: 1; }
-        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; touch-action: none; }
+        .tag-op { background: white; border: 1px solid var(--azul); color: var(--azul); padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; touch-action: none; }
         
-        /* LIXEIRO */
         #lixeira {
-            height: 40px; border-top: 1px solid #cbd5e0; margin-top: 5px;
+            height: 35px; border-top: 1px solid #cbd5e0; margin-top: 5px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px; color: #7f8c8d; transition: 0.3s;
+            font-size: 18px; color: #7f8c8d;
         }
-        .lixeira-ativa { background: #fab1a0 !important; color: #d63031 !important; border-radius: 0 0 6px 6px; }
+        .lixeira-ativa { background: #fab1a0 !important; color: #d63031 !important; }
 
-        #conteiner-maquinas-D { display: flex; flex-direction: column; gap: 4px; justify-content: flex-end; }
+        /* MÁQUINAS DA DIREITA: Agora com altura total controlada para não mudar de tamanho */
+        #conteiner-maquinas-D { 
+            display: flex; flex-direction: column; gap: 4px; 
+            justify-content: flex-end; 
+            height: auto; /* Deixa as máquinas manterem seus tamanhos fixos abaixo */
+        }
+
         .corredor-vertical { background: var(--cinza-corredor); display: flex; align-items: center; justify-content: center; color: #b2bec3; writing-mode: vertical-rl; border-radius: 4px; font-weight: bold; font-size: 8px; }
         .corredor-horizontal { height: 18px; background: var(--cinza-corredor); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 9px; font-weight: bold; letter-spacing: 5px; }
         .rodape-injetoras { display: flex; gap: 5px; height: 20%; }
 
+        /* TAMANHOS TRAVADOS (IGUAL À ESQUERDA) */
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
-        #colD .card { flex: none; height: 11.5%; min-height: 45px; }
-        .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
+        
+        #colD .card { 
+            flex: none !important; 
+            height: 55px; /* Altura fixa para 303 e 520, compatível com as da esquerda */
+        }
+        .card[data-id="32002"] { 
+            flex: none !important; 
+            height: 120px !important; /* Altura fixa para a 32002 */
+            border-width: 3px; 
+        }
 
         .borda-F { border-color: var(--verde); }
         .borda-M { border-color: var(--amarelo); }
@@ -59,7 +76,7 @@
         .operador { color: #0056b3; font-weight: bold; font-size: 11px; text-align: center; }
         .molde { font-size: 8px; color: #666; text-align: center; }
 
-        #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
         .hover-destino { background: #e8f4fd !important; border-style: dashed !important; border-color: var(--azul) !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
@@ -81,13 +98,13 @@
             <div class="coluna">
                 <div id="central-equipe">
                     <div class="controles-equipe">
-                        <input type="text" id="novo-op" placeholder="Novo Op.">
+                        <input type="text" id="novo-op" placeholder="Op.">
                         <button class="btn-add" onclick="addEquipe()">+</button>
                     </div>
                     <div id="lista-equipe" class="lista-nomes"></div>
                     <div id="lixeira">🗑️</div>
                 </div>
-                <div id="conteiner-maquinas-D" class="coluna"></div>
+                <div id="conteiner-maquinas-D"></div>
             </div>
         </div>
         <div class="corredor-horizontal">CORREDOR</div>
@@ -129,16 +146,14 @@
 
         db.ref(CAMINHO).on('value', (snap) => {
             const data = snap.val();
-            // Correção para não sumir as máquinas caso o banco esteja no formato antigo
             if (data && data.maquinas) {
                 maquinas = data.maquinas;
                 equipe = data.equipe || [];
+                desenhar();
+                desenharEquipe();
             } else {
                 inicializarBanco();
-                return;
             }
-            desenhar();
-            desenharEquipe();
         });
 
         function inicializarBanco() {
@@ -159,7 +174,7 @@
                     { id: '1817', p: 'B', st: 'ON', op: '', mol: '', dif: 'M' },
                     { id: '1503', p: 'B', st: 'ON', op: '', mol: '', dif: 'D' }
                 ],
-                equipe: ["Exemplo 1", "Exemplo 2"]
+                equipe: ["Exemplo 1"]
             };
             db.ref(CAMINHO).set(padrao);
         }
@@ -229,27 +244,20 @@
             const destLista = el ? el.closest('#central-equipe') : null;
 
             if (dragInfo) {
-                // Caso: Arrastou para lixeira
                 if (destLixeira && dragInfo.tipo === 'equipe') {
                     equipe = equipe.filter(n => n !== dragInfo.valor);
                     db.ref(`${CAMINHO}/equipe`).set(equipe);
-                } 
-                // Caso: Arrastou da lista para máquina
-                else if (destCard && dragInfo.tipo === 'equipe') {
+                } else if (destCard && dragInfo.tipo === 'equipe') {
                     const m = maquinas.find(x => x.id === destCard.getAttribute('data-id'));
                     if(m && m.st !== 'OFF') m.op = dragInfo.valor;
-                }
-                // Caso: Arrastou de máquina para máquina
-                else if (destCard && dragInfo.tipo === 'maquina') {
+                } else if (destCard && dragInfo.tipo === 'maquina') {
                     const mOrigem = maquinas.find(x => x.id === dragInfo.valor);
                     const mDest = maquinas.find(x => x.id === destCard.getAttribute('data-id'));
                     if(mDest && mDest.id !== mOrigem.id && mDest.st !== 'OFF') {
                         mDest.op = mOrigem.op;
                         mOrigem.op = '';
                     }
-                }
-                // Caso: Arrastou de máquina para lista (Devolver)
-                else if (destLista && dragInfo.tipo === 'maquina') {
+                } else if (destLista && dragInfo.tipo === 'maquina') {
                     const mOrigem = maquinas.find(x => x.id === dragInfo.valor);
                     mOrigem.op = '';
                 }
