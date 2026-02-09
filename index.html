@@ -12,9 +12,26 @@
         * { box-sizing: border-box; }
         body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding: 5px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; height: 45px; background: white; border-radius: 8px; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        h1 { margin: 0; font-size: 16px; color: var(--azul); }
-        .btn-whats { background: #25D366; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        /* CABEÇALHO NOVO */
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 5px 12px; 
+            height: 50px; 
+            background: white; 
+            border-radius: 8px; 
+            margin-bottom: 5px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+        }
+        .info-header { display: flex; flex-direction: column; justify-content: center; }
+        h1 { margin: 0; font-size: 16px; color: var(--azul); line-height: 1.1; }
+        
+        /* Estilo do Placar (Resumo) */
+        .status-resumo { font-size: 11px; color: #666; font-weight: 600; margin-top: 1px; }
+        .destaque-moinho { color: #e67e22; } /* Cor laranja para o Moinho */
+
+        .btn-whats { background: #25D366; color: white; border: none; padding: 0 12px; height: 32px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
 
         .area-trabalho { display: flex; flex-direction: column; flex: 1; gap: 5px; padding-bottom: env(safe-area-inset-bottom); }
         
@@ -72,7 +89,10 @@
 <body>
 
     <header>
-        <h1>SpinInject Cloud</h1>
+        <div class="info-header">
+            <h1>SpinInject Cloud</h1>
+            <div id="status-resumo" class="status-resumo">Carregando...</div>
+        </div>
         <button class="btn-whats" onclick="enviarWhats()">Enviar Escala</button>
     </header>
 
@@ -230,6 +250,43 @@
 
                 if (m.p === 'E') elE.appendChild(card); else if (m.p === 'D') elD.appendChild(card); else elB.appendChild(card);
             });
+            
+            // ATUALIZA O PLACAR SEMPRE QUE DESENHAR
+            atualizarResumo();
+        }
+
+        // --- NOVA FUNÇÃO DE RESUMO ---
+        function atualizarResumo() {
+            let maquinasLigadas = 0;
+            let operadoresUnicos = new Set(); // Set não aceita duplicatas
+            let temMoinho = false;
+
+            maquinas.forEach(m => {
+                if (m.st === 'ON') {
+                    maquinasLigadas++;
+                    
+                    if (m.op) {
+                        const nomeNormalizado = m.op.trim().toLowerCase();
+                        
+                        // Verifica se é o Moinho
+                        if (nomeNormalizado === 'moinho') {
+                            temMoinho = true;
+                        } else {
+                            // Se não for moinho, adiciona na lista de operadores
+                            operadoresUnicos.add(nomeNormalizado);
+                        }
+                    }
+                }
+            });
+
+            // Monta o texto
+            let texto = `${maquinasLigadas} Máquinas  |  ${operadoresUnicos.size} Operadores`;
+            
+            if (temMoinho) {
+                texto += ` <span class="destaque-moinho">+ 1 Moinho</span>`;
+            }
+
+            document.getElementById('status-resumo').innerHTML = texto;
         }
 
         function moverAvatar(t) { avatar.style.left = (t.clientX - 10) + 'px'; avatar.style.top = (t.clientY - 25) + 'px'; }
@@ -292,6 +349,12 @@
 
         function enviarWhats() {
             let txt = "*ESCALA SPININJECT*\n";
+            
+            // Adicionei o resumo no topo do zap também
+            const maqs = maquinas.filter(m=>m.st==='ON').length;
+            const ops = new Set(maquinas.filter(m=>m.st==='ON' && m.op && m.op.toLowerCase()!=='moinho').map(m=>m.op)).size;
+            txt += `📊 *${maqs} Máquinas | ${ops} Ops*\n\n`;
+
             maquinas.forEach(m => { 
                 if(m.st === 'ON' && m.op) {
                     txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; 
