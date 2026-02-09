@@ -12,6 +12,7 @@
         * { box-sizing: border-box; }
         body { font-family: sans-serif; background: #f0f4f8; margin: 0; padding: 5px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
         
+        /* CABEÇALHO */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 5px 12px; height: 50px; background: white; border-radius: 8px; 
@@ -28,6 +29,7 @@
         .coluna { display: flex; flex-direction: column; gap: 4px; height: 100%; }
         #colD { justify-content: flex-end; }
 
+        /* CENTRAL DE EQUIPE */
         #central-equipe { 
             position: absolute; top: 0; right: 0; width: calc(50% - 15px); height: 45%; 
             background: #eef2f7; border-radius: 6px; padding: 8px; display: flex; 
@@ -41,6 +43,7 @@
         #lixeira { height: 35px; display: flex; align-items: center; justify-content: center; font-size: 22px; opacity: 0.5; border-top: 1px solid #ccc; margin-top: 4px; }
         .lixeira-ativa { background: #ff7675 !important; border-radius: 0 0 5px 5px; opacity: 1 !important; }
 
+        /* MÁQUINAS */
         .card { background: white; border: 2px solid #ccc; border-radius: 5px; padding: 2px; flex: 1; position: relative; display: flex; flex-direction: column; justify-content: center; touch-action: none; min-height: 0; }
         .card[data-id="32002"] { flex: none !important; height: 24% !important; border-width: 3px; }
         #colD .card:not([data-id="32002"]) { flex: none; height: 11.5%; }
@@ -56,16 +59,17 @@
         
         .badge { position: absolute; top: 1px; left: 1px; background: #333; color: white; padding: 1px 3px; border-radius: 2px; font-size: 8px; font-weight: bold; }
         .operador { color: #0056b3; font-weight: bold; font-size: 11px; text-align: center; line-height: 1; margin-top: 4px; }
-        .molde-label { font-size: 8px; color: #666; text-align: center; }
+        .molde-label { font-size: 10px; color: #333; text-align: center; font-weight: 500; }
         .obs-preview { font-size: 7px; color: #999; text-align: center; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
 
         #avatar-drag { position: fixed; pointer-events: none; display: none; z-index: 9999; font-size: 24px; }
         .hover-destino { background: #e8f4fd !important; border-style: dashed !important; border-color: var(--azul) !important; }
 
+        /* MODAL */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 92%; max-width: 400px; max-height: 90vh; overflow-y: auto; }
+        .modal-box { background: white; padding: 15px; border-radius: 8px; width: 92%; max-width: 400px; max-height: 95vh; overflow-y: auto; }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
         .modal-header h3 { margin: 0; font-size: 16px; color: var(--azul); }
         
         .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
@@ -75,26 +79,29 @@
         input:checked + .slider { background-color: var(--verde); }
         input:checked + .slider:before { transform: translateX(26px); }
         
-        .modal-label { font-size: 12px; font-weight: bold; color: var(--azul); display: block; margin-bottom: 2px; margin-top: 10px; }
-        .inp-full { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .modal-label { font-size: 12px; font-weight: bold; color: var(--azul); display: block; margin-bottom: 3px; margin-top: 8px; }
+        .inp-full { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
         
-        .area-moldes { background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #e0e0e0; margin-top: 5px; }
-        .form-molde { display: flex; gap: 5px; margin-bottom: 8px; }
-        .form-molde input { padding: 5px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; }
-        .sel-dif-molde { width: 60px; padding: 5px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; }
-        .btn-molde-add { background: var(--azul); color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 10px; font-weight: bold; }
+        /* GERENCIADOR DE MOLDES AJUSTADO */
+        .area-moldes { background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e0e0e0; margin-top: 5px; }
         
-        .lista-moldes { max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+        /* Layout em duas linhas para os campos caberem */
+        .form-molde-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .form-molde-row input, .form-molde-row select { padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        .btn-molde-add { background: var(--azul); color: white; border: none; border-radius: 4px; cursor: pointer; padding: 0 15px; font-weight: bold; font-size: 18px; flex: 1; }
+        
+        .lista-moldes { max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; margin-top: 10px; border-top: 1px solid #ddd; padding-top: 10px; }
         .item-molde { 
             display: flex; justify-content: space-between; align-items: center; 
-            background: white; padding: 6px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; 
-            font-size: 11px;
+            background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; 
+            font-size: 13px;
         }
         .molde-ativo { border: 2px solid var(--azul); background: #e8f4fd; }
-        .bola-dif { width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; display: inline-block; }
+        .bola-dif { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; display: inline-block; }
         .bg-F { background: var(--verde); } .bg-M { background: var(--amarelo); } .bg-D { background: var(--vermelho); }
         
-        .btn-salvar { width: 100%; padding: 12px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 15px; }
+        .btn-salvar { width: 100%; padding: 14px; background: var(--azul); color: white; border: none; border-radius: 4px; font-weight: bold; margin-top: 15px; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -136,28 +143,36 @@
                     <span class="slider"></span>
                 </label>
             </div>
+
             <label class="modal-label">Operador:</label>
             <input id="inOp" class="inp-full">
+
             <label class="modal-label">Molde Atual:</label>
-            <input id="inMolDisplay" class="inp-full" readonly placeholder="Selecione na lista abaixo..." style="background:#eee; font-weight:bold;">
+            <input id="inMolDisplay" class="inp-full" readonly placeholder="Selecione na lista abaixo..." style="background:#f0f0f0; font-weight:bold; color: #333;">
+
             <label class="modal-label">Gerenciador de Moldes:</label>
             <div class="area-moldes">
-                <div class="form-molde">
-                    <input id="newMolCod" placeholder="Cód." style="width: 25%;">
-                    <input id="newMolNome" placeholder="Nome" style="flex: 1;">
-                    <select id="newMolDif" class="sel-dif-molde">
+                <div class="form-molde-row">
+                    <input id="newMolCod" placeholder="Cód. Molde" style="flex: 2;">
+                    <select id="newMolDif" style="flex: 1;">
                         <option value="F">Verde</option>
-                        <option value="M">Amar</option>
-                        <option value="D">Verm</option>
+                        <option value="M">Amarelo</option>
+                        <option value="D">Vermelho</option>
                     </select>
+                </div>
+                <div class="form-molde-row">
+                    <input id="newMolNome" placeholder="Nome do Molde" style="flex: 3;">
                     <button class="btn-molde-add" onclick="addMolde()">+</button>
                 </div>
+                
                 <div id="lista-moldes-maquina" class="lista-moldes"></div>
             </div>
+
             <label class="modal-label">Observação:</label>
             <textarea id="inObs" class="inp-full" rows="2"></textarea>
-            <button class="btn-salvar" onclick="salvar()">SALVAR</button>
-            <button onclick="fecharModal()" style="width:100%; margin-top:10px; background:none; border:none; color:red;">Cancelar</button>
+
+            <button class="btn-salvar" onclick="salvar()">SALVAR ALTERAÇÕES</button>
+            <button onclick="fecharModal()" style="width:100%; margin-top:10px; background:none; border:none; color:#e74c3c; font-weight: bold; padding: 10px;">Cancelar</button>
         </div>
     </div>
 
@@ -198,19 +213,19 @@
             const padrao = {
                 maquinas: [
                     { id: '905', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
-                    { id: '638', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '', moldes: [] },
+                    { id: '638', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
                     { id: '639', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
-                    { id: '648', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '', moldes: [] },
+                    { id: '648', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
                     { id: '644', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
-                    { id: '643', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '', moldes: [] },
-                    { id: '408', p: 'E', st: 'ON', op: '', mol: '', dif: 'D', obs: '', moldes: [] },
-                    { id: '407', p: 'E', st: 'ON', op: '', mol: '', dif: 'M', obs: '', moldes: [] },
+                    { id: '643', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
+                    { id: '408', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
+                    { id: '407', p: 'E', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
                     { id: '303', p: 'D', st: 'OFF', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
                     { id: '520', p: 'D', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
-                    { id: '32002', p: 'D', st: 'ON', op: '', mol: '', dif: 'M', obs: '', moldes: [] },
+                    { id: '32002', p: 'D', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
                     { id: '1816', p: 'B', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
-                    { id: '1817', p: 'B', st: 'ON', op: '', mol: '', dif: 'M', obs: '', moldes: [] },
-                    { id: '1503', p: 'B', st: 'ON', op: '', mol: '', dif: 'D', obs: '', moldes: [] }
+                    { id: '1817', p: 'B', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] },
+                    { id: '1503', p: 'B', st: 'ON', op: '', mol: '', dif: 'F', obs: '', moldes: [] }
                 ],
                 equipe: []
             };
@@ -328,79 +343,4 @@
         }
 
         function abrir(id) {
-            editId = id;
-            const m = maquinas.find(x => x.id === id);
-            document.getElementById('modal-titulo').innerText = `Editar Injetora ${m.id}`;
-            document.getElementById('switchSt').checked = (m.st === 'ON');
-            document.getElementById('inOp').value = m.op || '';
-            document.getElementById('inObs').value = m.obs || '';
-            document.getElementById('inMolDisplay').value = m.mol || '';
-            tempDif = m.dif || 'F';
-            renderizarListaMoldes(m);
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function renderizarListaMoldes(maquina) {
-            const lista = document.getElementById('lista-moldes-maquina');
-            lista.innerHTML = '';
-            if(!maquina.moldes) maquina.moldes = [];
-            maquina.moldes.forEach((molde, idx) => {
-                const item = document.createElement('div');
-                item.className = `item-molde ${maquina.mol === molde.cod + ' - ' + molde.nome ? 'molde-ativo' : ''}`;
-                item.innerHTML = `<div><span class="bola-dif bg-${molde.dif}"></span><b>${molde.cod}</b> - ${molde.nome}</div><span style="color:red;padding:5px;" onclick="removerMolde(event, ${idx})">x</span>`;
-                item.onclick = (e) => { if(e.target.innerText !== 'x') selecionarMolde(molde); };
-                lista.appendChild(item);
-            });
-        }
-
-        function addMolde() {
-            const cod = document.getElementById('newMolCod').value.trim();
-            const nome = document.getElementById('newMolNome').value.trim();
-            const dif = document.getElementById('newMolDif').value;
-            if(cod && nome) {
-                const m = maquinas.find(x => x.id === editId);
-                if(!m.moldes) m.moldes = [];
-                m.moldes.push({ cod, nome, dif });
-                document.getElementById('newMolCod').value = '';
-                document.getElementById('newMolNome').value = '';
-                db.ref(`${CAMINHO}/maquinas`).set(maquinas);
-                renderizarListaMoldes(m);
-            }
-        }
-
-        function removerMolde(e, idx) {
-            e.stopPropagation();
-            const m = maquinas.find(x => x.id === editId);
-            m.moldes.splice(idx, 1);
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
-            renderizarListaMoldes(m);
-        }
-
-        function selecionarMolde(molde) {
-            document.getElementById('inMolDisplay').value = `${molde.cod} - ${molde.nome}`;
-            tempDif = molde.dif;
-            const m = maquinas.find(x => x.id === editId);
-            renderizarListaMoldes(m);
-        }
-
-        function salvar() {
-            const m = maquinas.find(x => x.id === editId);
-            m.op = document.getElementById('inOp').value;
-            m.obs = document.getElementById('inObs').value;
-            m.st = document.getElementById('switchSt').checked ? 'ON' : 'OFF';
-            m.mol = document.getElementById('inMolDisplay').value;
-            m.dif = tempDif;
-            db.ref(`${CAMINHO}/maquinas`).set(maquinas);
-            fecharModal();
-        }
-
-        function fecharModal() { document.getElementById('modal').style.display = 'none'; }
-
-        function enviarWhats() {
-            let txt = "*ESCALA SPININJECT*\n";
-            maquinas.forEach(m => { if(m.st === 'ON' && m.op) txt += `🔹 INJ-${m.id}: ${m.op} ${m.mol ? '['+m.mol+']' : ''}\n`; });
-            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt));
-        }
-    </script>
-</body>
-</html>
+            edi
