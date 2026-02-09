@@ -150,7 +150,7 @@
     </div>
 
     <script>
-        // Configurações do seu banco de dados Firebase
+        // Conexão com o Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAgstf6o36yIiIL8KqR99ZF8fqHPLzUY3w",
             authDomain: "spininject.firebaseapp.com",
@@ -166,7 +166,7 @@
         let maquinas = [], equipe = [], dragData = null, editId = null, tempDif = 'F';
         const avatar = document.getElementById('avatar-drag');
 
-        // Escuta qualquer mudança no banco e atualiza a tela na hora
+        // Escuta o banco de dados e atualiza a interface
         db.ref(CAMINHO).on('value', snap => {
             const data = snap.val();
             if (data) {
@@ -178,17 +178,14 @@
             }
         });
 
-        // Atualiza os números do cabeçalho e o aviso do Moinho
+        // Calcula os números do topo e verifica o Moinho
         function atualizarResumo() {
-            // Conta máquinas ligadas
             const ligadas = maquinas.filter(m => m.st === 'ON').length;
-            
-            // Conta operadores únicos (sem contar o nome Moinho)
             const ops = new Set(
                 maquinas.filter(m => m.op && m.st==='ON' && m.op.toUpperCase() !== 'MOINHO').map(m => m.op)
             ).size;
             
-            // Verifica se o operador "Moinho" está escalado em alguma máquina
+            // Regra: se o operador "Moinho" estiver em alguma máquina, exibe o aviso
             const moinhoAtribuido = maquinas.some(m => m.op && m.op.toUpperCase() === 'MOINHO');
 
             document.getElementById('status-resumo').innerHTML = `
@@ -197,7 +194,7 @@
             `;
         }
 
-        // --- Lógica de Arrastar e Soltar (Drag and Drop) ---
+        // Funções de Arrastar (Drag and Drop)
         function iniciarDrag(e, nome, origemId = null) {
             dragData = { nome, origem: origemId };
             avatar.innerText = nome;
@@ -216,30 +213,25 @@
             const el = document.elementFromPoint(t.clientX, t.clientY);
             const card = el?.closest('.card'), lixeira = el?.closest('#lixeira');
 
-            // Se soltou na lixeira (remove da lista azul)
             if (lixeira && !dragData.origem) {
                 equipe = equipe.filter(n => n !== dragData.nome);
                 db.ref(`${CAMINHO}/equipe`).set(equipe);
-            } 
-            // Se soltou em uma máquina
-            else if (card) {
-                if (dragData.origem) { // Se estava em outra máquina, limpa a antiga
+            } else if (card) {
+                if (dragData.origem) {
                     const mO = maquinas.find(x => x.id === dragData.origem);
                     if (mO) mO.op = '';
                 }
                 const mA = maquinas.find(x => x.id === card.dataset.id);
                 mA.op = dragData.nome;
                 db.ref(`${CAMINHO}/maquinas`).set(maquinas);
-            } 
-            // Se soltou fora e veio de uma máquina (limpa a máquina)
-            else if (!card && dragData.origem) {
+            } else if (!card && dragData.origem) {
                 const mO = maquinas.find(x => x.id === dragData.origem);
                 if (mO) { mO.op = ''; db.ref(`${CAMINHO}/maquinas`).set(maquinas); }
             }
             dragData = null;
         }
 
-        // Desenha as injetoras na tela
+        // Gera os cards das máquinas na tela
         function desenhar() {
             const cols = { E: document.getElementById('colE'), D: document.getElementById('colD'), B: document.getElementById('colB') };
             Object.values(cols).forEach(c => c.innerHTML = '');
@@ -251,7 +243,6 @@
                 
                 card.onclick = (e) => { if(!dragData) abrir(m.id); };
                 
-                // Ativa o arraste de quem já está na máquina
                 const opArea = card.querySelector('.operador');
                 opArea.addEventListener('touchstart', (e) => { if(m.op){ e.stopPropagation(); iniciarDrag(e, m.op, m.id); } }, {passive:false});
                 opArea.addEventListener('touchmove', (e) => { if(dragData){ e.preventDefault(); moverAvatar(e.touches[0]); } }, {passive:false});
@@ -261,7 +252,7 @@
             });
         }
 
-        // Desenha os nomes na lista da equipe (caixa azul)
+        // Gera a lista de operadores (caixa azul)
         function desenharEquipe() {
             const container = document.getElementById('lista-equipe'); container.innerHTML = '';
             equipe.forEach(n => {
@@ -273,7 +264,7 @@
             });
         }
 
-        // Abre o modal para editar máquina e moldes
+        // Funções do Modal de Edição
         function abrir(id) {
             editId = id; const m = maquinas.find(x=>x.id===id);
             document.getElementById('modal-titulo').innerText = `EDITAR INJ-${m.id}`;
@@ -285,7 +276,6 @@
             document.getElementById('modal').style.display = 'flex';
         }
 
-        // Mostra a lista de moldes disponíveis dentro do modal
         function renderMoldes() {
             const m = maquinas.find(x=>x.id===editId);
             const l = document.getElementById('lista-moldes-maquina'); l.innerHTML = '';
@@ -299,7 +289,6 @@
             });
         }
 
-        // Adiciona um novo molde à máquina
         function addMolde() {
             const c = document.getElementById('newMolCod').value, n = document.getElementById('newMolNome').value, d = document.getElementById('newMolDif').value;
             if(c && n) {
@@ -309,13 +298,11 @@
             }
         }
 
-        // Apaga um molde da máquina
         function delMolde(i) {
             const m = maquinas.find(x=>x.id===editId); m.moldes.splice(i, 1);
             db.ref(`${CAMINHO}/maquinas`).set(maquinas); renderMoldes();
         }
 
-        // Salva tudo o que foi alterado no modal para o Firebase
         function salvar() {
             const m = maquinas.find(x=>x.id===editId);
             m.op = document.getElementById('inOp').value;
@@ -328,22 +315,28 @@
 
         function fecharModal() { document.getElementById('modal').style.display = 'none'; }
 
-        // Adiciona novo nome na lista de equipe
         function addEquipe() {
             const n = document.getElementById('novo-op').value.trim();
             if(n) { equipe.push(n); db.ref(`${CAMINHO}/equipe`).set(equipe); document.getElementById('novo-op').value=''; }
         }
 
-        // Gera o texto e abre o WhatsApp
         function enviarWhats() {
-            let t = "*ESCALA SPININJECT*\n";
+            let t = "*ESCALA Injeção*\n";
             maquinas.forEach(m => { if(m.st==='ON' && m.op) t += `🔹 ${m.id}: ${m.op} [${m.mol}]\n`; });
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(t));
         }
 
-        // Função para envio ao Google Sheets (precisa da URL configurada)
+        // Envia os dados para a Planilha do Google
         function enviarParaSheets() {
-            alert("URL do Google Sheets ainda não configurada no código.");
+            const url = "https://script.google.com/macros/s/AKfycbxEKq4ZmkNT_5MOzUBUS9rQmiVqv22Si19YJPXKLsPh3mk-Lp40dDYdW6IvRSfQ8oCO5w/exec"; 
+
+            fetch(url, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(maquinas) 
+            })
+            .then(() => alert("Dados enviados para a planilha!"))
+            .catch(e => alert("Erro ao enviar: " + e));
         }
     </script>
 </body>
